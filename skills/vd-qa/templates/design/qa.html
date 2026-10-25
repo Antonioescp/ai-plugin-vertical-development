@@ -1,0 +1,241 @@
+<!doctype html>
+<!--
+  Ejecución de pruebas manuales del flujo de desarrollo vertical.
+  Se abre con el servidor de revisión: http://127.0.0.1:4321/design/qa.html?rf=RF-NNN
+  Lee el plan de .vd/RF-NNN/qa/plan.json y guarda los resultados de la ronda actual en
+  .vd/RF-NNN/qa/results.json. No contiene lógica de ningún requerimiento.
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pruebas manuales</title>
+  <style>
+    :root {
+      --bg: #f8fafc; --surface: #fff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0;
+      --pasa: #16a34a; --falla: #dc2626; --bloqueado: #d97706; --pendiente: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text); background: var(--bg); }
+    [hidden] { display: none !important; }
+    header { position: sticky; top: 0; z-index: 1; background: var(--surface); border-bottom: 1px solid var(--border); }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 16px; }
+    h1 { margin: 0; font-size: 20px; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .spacer { flex: 1; }
+    .progress { display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: var(--border); margin-top: 10px; }
+    .progress span { display: block; height: 100%; }
+    .badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff; }
+    .b-pasa { background: var(--pasa); } .b-falla { background: var(--falla); }
+    .b-bloqueado { background: var(--bloqueado); } .b-pendiente { background: var(--pendiente); }
+    a.btn, button { font: inherit; cursor: pointer; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); padding: 6px 12px; color: var(--text); text-decoration: none; }
+    button:focus-visible, a:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid #93c5fd; }
+    .case { background: var(--surface); border: 1px solid var(--border); border-left: 6px solid var(--pendiente); border-radius: 8px; padding: 16px; margin: 16px 0; }
+    .case.is-pasa { border-left-color: var(--pasa); } .case.is-falla { border-left-color: var(--falla); }
+    .case.is-bloqueado { border-left-color: var(--bloqueado); }
+    .case h2 { margin: 0; font-size: 16px; }
+    .case h3 { margin: 12px 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+    .case ol, .case ul { margin: 0; padding-left: 22px; }
+    .case code { background: #f1f5f9; padding: 0 4px; border-radius: 4px; font-size: 13px; }
+    .context { margin-top: 12px; padding: 8px 12px; border-radius: 6px; background: #eff6ff; font-size: 14px; }
+    .actions { margin-top: 14px; }
+    .actions button[aria-pressed="true"][data-estado="pasa"] { background: var(--pasa); color: #fff; border-color: var(--pasa); }
+    .actions button[aria-pressed="true"][data-estado="falla"] { background: var(--falla); color: #fff; border-color: var(--falla); }
+    .actions button[aria-pressed="true"][data-estado="bloqueado"] { background: var(--bloqueado); color: #fff; border-color: var(--bloqueado); }
+    textarea { width: 100%; margin-top: 8px; font: inherit; padding: 8px; border: 1px solid var(--border); border-radius: 6px; resize: vertical; }
+    textarea.is-required { border-color: var(--falla); }
+    .error { padding: 16px; border-radius: 8px; background: #fef2f2; color: var(--falla); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="row">
+        <h1 id="titulo">Pruebas manuales</h1>
+        <span class="spacer"></span>
+        <a class="btn" id="abrir-app" target="_blank" rel="noopener" hidden>Abrir la app ↗</a>
+      </div>
+      <div class="row muted" id="resumen"></div>
+      <div class="progress" id="progreso" aria-hidden="true"></div>
+      <div class="row" style="margin-top:10px">
+        <label class="muted">Mostrar
+          <select id="filtro">
+            <option value="todos">todos</option>
+            <option value="pendiente">pendientes</option>
+            <option value="falla">con fallo</option>
+            <option value="bloqueado">bloqueados</option>
+          </select>
+        </label>
+        <span class="spacer"></span>
+        <span class="muted" id="guardado"></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="entorno" class="muted"></div>
+    <div id="casos"></div>
+  </main>
+
+  <script>
+    const rf = new URLSearchParams(location.search).get('rf') || '';
+    const ESTADOS = ['pasa', 'falla', 'bloqueado'];
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[c]));
+    // Los textos del plan admiten `código` y **negrita** en línea.
+    const inline = (s) => esc(s)
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    const list = (items, tag) => items?.length
+      ? `<${tag}>${items.map((i) => `<li>${inline(i)}</li>`).join('')}</${tag}>` : '';
+
+    let plan;
+    let results;
+    let round;
+
+    function statusOf(id) {
+      return round.resultados[id]?.estado || 'pendiente';
+    }
+
+    function previousResult(id) {
+      for (let i = results.rondas.length - 2; i >= 0; i -= 1) {
+        const r = results.rondas[i].resultados?.[id];
+        if (r) return { ronda: results.rondas[i].numero, ...r };
+      }
+      return null;
+    }
+
+    function renderHeader() {
+      const ids = round.casos;
+      const count = (e) => ids.filter((id) => statusOf(id) === e).length;
+      const parts = ['pasa', 'falla', 'bloqueado', 'pendiente'].map((e) => [e, count(e)]);
+      document.getElementById('resumen').innerHTML =
+        `Ronda ${round.numero} · ${ids.length} casos · ` +
+        parts.map(([e, n]) => `<span class="badge b-${e}">${n} ${e}</span>`).join(' ');
+      document.getElementById('progreso').innerHTML = parts
+        .map(([e, n]) => `<span class="b-${e}" style="width:${(n / ids.length) * 100}%"></span>`).join('');
+    }
+
+    function renderCase(c) {
+      const estado = statusOf(c.id);
+      const resultado = round.resultados[c.id] || {};
+      const previo = previousResult(c.id);
+      const contexto = round.contexto?.[c.id];
+      return `
+        <article class="case is-${estado}" data-case="${esc(c.id)}">
+          <div class="row">
+            <h2>${esc(c.id)} · ${inline(c.titulo)}</h2>
+            <span class="spacer"></span>
+            <span class="muted">${esc(c.criterio || '')} ${c.pantalla ? `· ${esc(c.pantalla)}` : ''}</span>
+          </div>
+          ${c.precondiciones?.length ? `<h3>Antes de empezar</h3>${list(c.precondiciones, 'ul')}` : ''}
+          ${c.datos ? `<h3>Datos</h3><p style="margin:0">${inline(c.datos)}</p>` : ''}
+          <h3>Pasos</h3>${list(c.pasos, 'ol')}
+          <h3>Resultado esperado</h3>${list(c.esperado, 'ul')}
+          ${previo ? `<div class="context">Ronda ${esc(previo.ronda)}: <strong>${esc(previo.estado)}</strong>${previo.nota ? ` — ${esc(previo.nota)}` : ''}</div>` : ''}
+          ${contexto ? `<div class="context">Cambios desde la ronda anterior: ${inline(contexto)}</div>` : ''}
+          <div class="actions row">
+            ${ESTADOS.map((e) => `<button type="button" data-estado="${e}" aria-pressed="${estado === e}">${
+              { pasa: '✓ Pasa', falla: '✕ Falla', bloqueado: '⏸ Bloqueado' }[e]}</button>`).join('')}
+          </div>
+          <textarea rows="2" placeholder="Qué observaste (obligatorio si falla o está bloqueado)"
+            class="${['falla', 'bloqueado'].includes(estado) && !resultado.nota ? 'is-required' : ''}"
+            aria-label="Nota de ${esc(c.id)}">${esc(resultado.nota || '')}</textarea>
+        </article>`;
+    }
+
+    function render() {
+      const filtro = document.getElementById('filtro').value;
+      const casos = plan.casos.filter((c) => round.casos.includes(c.id))
+        .filter((c) => filtro === 'todos' || statusOf(c.id) === filtro);
+      document.getElementById('casos').innerHTML = casos.map(renderCase).join('')
+        || '<p class="muted">No hay casos con este filtro.</p>';
+      renderHeader();
+    }
+
+    let saveTimer;
+    async function save() {
+      const label = document.getElementById('guardado');
+      label.textContent = 'Guardando…';
+      try {
+        const res = await fetch(`/__qa?rf=${encodeURIComponent(rf)}`, {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(results),
+        });
+        if (!res.ok) throw new Error(res.status);
+        label.textContent = `Guardado en .vd/${rf}/qa/results.json`;
+      } catch {
+        label.textContent = 'No se pudo guardar: ¿está corriendo review-server.mjs?';
+      }
+    }
+    function scheduleSave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(save, 400);
+    }
+
+    function setResult(id, patch) {
+      const actual = round.resultados[id] || { estado: 'pendiente', nota: '' };
+      round.resultados[id] = { ...actual, ...patch, fecha: new Date().toISOString() };
+      scheduleSave();
+    }
+
+    document.getElementById('casos').addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-estado]');
+      if (!button) return;
+      const id = button.closest('[data-case]').dataset.case;
+      const estado = statusOf(id) === button.dataset.estado ? 'pendiente' : button.dataset.estado;
+      setResult(id, { estado });
+      render();
+      if (['falla', 'bloqueado'].includes(estado)) {
+        document.querySelector(`[data-case="${CSS.escape(id)}"] textarea`)?.focus();
+      }
+    });
+
+    document.getElementById('casos').addEventListener('input', (e) => {
+      if (e.target.tagName !== 'TEXTAREA') return;
+      const id = e.target.closest('[data-case]').dataset.case;
+      setResult(id, { nota: e.target.value });
+      e.target.classList.toggle('is-required', ['falla', 'bloqueado'].includes(statusOf(id)) && !e.target.value.trim());
+    });
+
+    document.getElementById('filtro').addEventListener('change', render);
+
+    async function init() {
+      const main = document.getElementById('casos');
+      if (!/^RF-\d{3,}$/.test(rf)) {
+        main.innerHTML = '<p class="error">Falta el parámetro <code>?rf=RF-NNN</code> en la URL.</p>';
+        return;
+      }
+      try {
+        plan = await (await fetch(`../${rf}/qa/plan.json`, { cache: 'no-store' })).json();
+        results = await (await fetch(`/__qa?rf=${encodeURIComponent(rf)}`)).json();
+      } catch {
+        main.innerHTML = `<p class="error">No se pudo cargar el plan. Abre esta página con
+          <code>node .vd/design/review-server.mjs</code> y comprueba que existe
+          <code>.vd/${esc(rf)}/qa/plan.json</code>.</p>`;
+        return;
+      }
+      if (!results.rondas.length) {
+        results.rondas.push({
+          numero: 1, inicio: new Date().toISOString(), casos: plan.casos.map((c) => c.id), resultados: {},
+        });
+        await save();
+      }
+      round = results.rondas[results.rondas.length - 1];
+
+      document.title = `${rf} · Pruebas manuales · ronda ${round.numero}`;
+      document.getElementById('titulo').textContent = `${rf} · ${plan.titulo || 'Pruebas manuales'}`;
+      if (plan.entorno?.url) {
+        const link = document.getElementById('abrir-app');
+        link.href = plan.entorno.url;
+        link.hidden = false;
+      }
+      document.getElementById('entorno').innerHTML = plan.entorno?.notas?.length
+        ? `<h3>Entorno</h3>${list(plan.entorno.notas, 'ul')}` : '';
+      render();
+    }
+    init();
+  </script>
+</body>
+</html>

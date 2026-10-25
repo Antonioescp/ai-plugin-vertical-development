@@ -1,0 +1,59 @@
+{
+  "rf": "RF-NNN",
+  "titulo": "Registro de usuarios",
+  "entorno": {
+    "url": "http://localhost:3000/registro",
+    "notas": [
+      "Backend y frontend levantados en local con la base de datos migrada.",
+      "Existe la cuenta `ana.perez@ejemplo.com` (creada para QA-02)."
+    ]
+  },
+  "casos": [
+    {
+      "id": "QA-01",
+      "criterio": "CA-1",
+      "titulo": "Crear una cuenta con datos válidos",
+      "pantalla": "P1",
+      "precondiciones": ["No has iniciado sesión."],
+      "datos": "Nombre `Toni`, correo `toni.qa1@ejemplo.com`, contraseña `ClaveSegura1`",
+      "pasos": [
+        "Abre la app en la pantalla **Crear cuenta**.",
+        "Escribe el nombre, el correo y la contraseña indicados.",
+        "Pulsa **Crear cuenta**."
+      ],
+      "esperado": [
+        "El botón muestra que está cargando y no se puede pulsar dos veces.",
+        "Aparece la pantalla **¡Listo!** con el correo `toni.qa1@ejemplo.com`."
+      ]
+    },
+    {
+      "id": "QA-02",
+      "criterio": "CA-2",
+      "titulo": "Intentar registrar un correo que ya existe",
+      "pantalla": "P1",
+      "precondiciones": ["Existe la cuenta `ana.perez@ejemplo.com`."],
+      "pasos": [
+        "Escribe un nombre, el correo `ana.perez@ejemplo.com` y una contraseña válida.",
+        "Pulsa **Crear cuenta**."
+      ],
+      "esperado": [
+        "Sigues en **Crear cuenta**.",
+        "Debajo del correo aparece: \"Ya existe una cuenta con este correo.\""
+      ]
+    },
+    {
+      "id": "QA-03",
+      "criterio": "exploratorio",
+      "titulo": "Usar el formulario en móvil y solo con teclado",
+      "pantalla": "P1",
+      "pasos": [
+        "Abre la app con un ancho de móvil (unos 390 px).",
+        "Recorre el formulario con Tab y envíalo con Enter."
+      ],
+      "esperado": [
+        "Todo se ve sin desplazamiento horizontal.",
+        "El foco es visible en cada campo y el formulario se envía con Enter."
+      ]
+    }
+  ]
+}

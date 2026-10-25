@@ -1,0 +1,44 @@
+@startuml estados-funcionalidad
+title Fases de un requerimiento (.vd/state.yaml)
+
+[*] --> pendiente : /vd-requirements (aprobado)
+
+state "UI/UX" as ux {
+  state wireframes_en_revision
+  state wireframes_aprobados
+  state prototipo_en_revision
+  [*] --> wireframes_en_revision : /vd-wireframe
+  wireframes_en_revision --> wireframes_en_revision : comentarios / cambios
+  wireframes_en_revision --> wireframes_aprobados : usuario aprueba
+  wireframes_aprobados --> prototipo_en_revision : /vd-prototype
+  prototipo_en_revision --> prototipo_en_revision : comentarios / cambios
+  prototipo_en_revision --> wireframes_en_revision : cambio estructural
+}
+
+pendiente --> ux : /vd-wireframe
+prototipo_en_revision --> prototipo_aprobado : usuario aprueba
+prototipo_aprobado --> bd_en_revision : /vd-db
+bd_en_revision --> bd_modelada : usuario aprueba\n+ migración verificada
+bd_modelada --> backend_listo : /vd-backend\n(contrato aprobado, pruebas en verde)
+backend_listo --> frontend_listo : /vd-frontend\n(pruebas y build en verde)
+frontend_listo --> en_pruebas : /vd-qa (plan y entorno listos)
+
+en_pruebas --> aceptada : todos los casos pasan
+en_pruebas --> en_pruebas : fallo de entorno\n(se corrige en /vd-qa)
+en_pruebas --> pendiente : fallo de requerimiento
+en_pruebas --> wireframes_en_revision : fallo de estructura UI/UX
+en_pruebas --> prototipo_en_revision : fallo visual
+en_pruebas --> prototipo_aprobado : fallo de base de datos
+en_pruebas --> bd_modelada : fallo de backend
+en_pruebas --> backend_listo : fallo de frontend
+
+aceptada --> entregada : /vd-ship (verificación final,\ncommits y PR/MR confirmados)
+entregada --> [*]
+
+note right of en_pruebas
+  Un fallo regresa a la fase anterior a la que lo originó;
+  se rehacen esa fase y las siguientes, y /vd-qa
+  abre una nueva ronda.
+end note
+
+@enduml

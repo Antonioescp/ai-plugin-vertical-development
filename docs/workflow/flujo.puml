@@ -1,0 +1,205 @@
+@startuml flujo-vertical-dev
+title Flujo de desarrollo vertical (solo skills, sin agentes)
+
+skinparam ActivityBackgroundColor #FDFDFD
+skinparam ActivityBorderColor #555555
+skinparam NoteBackgroundColor #FFF8DC
+
+|Usuario|
+start
+:Describe el producto o un conjunto
+de requerimientos;
+
+|Skills|
+if (¿Existe .vd/project.yaml?) then (no)
+  :**/vd-setup**
+  Detecta el stack del repo y propone el perfil;
+  note right
+    Escribe: .vd/project.yaml
+    - Rutas de frontend, backend y base de datos
+    - Comandos: test, lint, build, run, migrate
+    Ningún otro skill asume un stack.
+  end note
+  |Usuario|
+  :Confirma o corrige el perfil;
+  |Skills|
+else (sí)
+endif
+
+repeat
+  :**/vd-requirements**
+  Convierte la descripción en requerimientos
+  verticales priorizados;
+  note right
+    Escribe: docs/requirements/
+    - README.md (índice = backlog)
+    - RF-001-registro-de-usuarios.md
+    - RF-002-inicio-de-sesion.md ...
+    Cada uno con historia de usuario y
+    criterios de aceptación Dado/Cuando/Entonces.
+    Si uno es demasiado grande, se divide
+    por flujo de usuario, no por capa.
+  end note
+  |Usuario|
+  :Responde dudas y revisa requerimientos;
+  |Skills|
+repeat while (¿Requerimientos y orden aprobados?) is (no) not (sí)
+
+|Skills|
+repeat :Toma la siguiente funcionalidad pendiente;
+
+  partition "1. Diseño de producto (UI/UX)" {
+    repeat
+      :**/vd-wireframe**
+      Flujos de usuario y estructura de pantallas;
+      note right
+        Escribe: .vd/RF-NNN/ux.md, flujo.puml
+        + .vd/RF-NNN/wireframe/index.html (HTML gris)
+        - Flujo de pantallas
+        - Estados: vacío, cargando, error, éxito
+        - Validaciones y mensajes
+        - Datos que muestra y que captura
+        Baja fidelidad: barato de cambiar.
+      end note
+      |Usuario|
+      :Revisa en el navegador y comenta
+      componentes con la barra de revisión;
+      note right
+        Comentarios en .vd/RF-NNN/review/comments.json
+        (servidor de revisión) o exportados/pegados.
+        El skill los atiende y responde en el archivo.
+      end note
+      |Skills|
+    repeat while (¿Estructura aprobada?) is (no, iterar) not (sí)
+
+    repeat
+      :**/vd-prototype**
+      Prototipo HTML navegable sobre el mismo HTML del wireframe;
+      note right
+        Escribe: .vd/RF-NNN/prototype/ (index.html, app.js, data.js)
+        - Alta fidelidad: estilo, interacción, navegación
+        - Datos simulados, sin backend
+        - Recorre todos los estados de ux.md
+        Si un cambio afecta la estructura,
+        se actualizan también ux.md y los wireframes.
+      end note
+      |Usuario|
+      :Prueba el prototipo y comenta
+      componentes con la barra de revisión;
+      |Skills|
+    repeat while (¿Prototipo aprobado?) is (no, iterar) not (sí)
+  }
+
+  partition "2. Base de datos" {
+    :**/vd-db**
+    Modela SOLO la porción que necesita
+    esta funcionalidad;
+    note right
+      Entrada: datos que captura/muestra ux.md
+      y el esquema existente del proyecto.
+      Escribe: .vd/RF-NNN/db.md + db.puml (ER)
+      Trazabilidad data-id -> entidad.atributo
+    end note
+    |Usuario|
+    :Revisa y aprueba el modelo;
+    |Skills|
+    :**/vd-db** genera la migración reversible
+    y la verifica en la base local;
+    note right
+      Con la herramienta de migraciones del proyecto.
+      Integra la porción en .vd/db/modelo.puml.
+    end note
+  }
+
+  partition "3. Backend" {
+    :**/vd-backend**
+    Contrato de API derivado de ux.md + db.md,
+    siguiendo los patrones del backend existente;
+    note right
+      Escribe: .vd/RF-NNN/api.md
+      Operaciones, validaciones, códigos de error
+      estables enlazados a los estados de ux.md.
+    end note
+    |Usuario|
+    :Aprueba el contrato;
+    |Skills|
+    :**/vd-backend**
+    Pruebas primero (rojo), implementación (verde);
+    note right
+      Código en las rutas de backend del perfil.
+      Suite completa + lint + build en verde
+      y prueba contra la API local.
+    end note
+  }
+
+  partition "4. Frontend" {
+    :**/vd-frontend**
+    Implementa las pantallas del prototipo aprobado
+    con los componentes del proyecto,
+    consumiendo el contrato de api.md;
+    note right
+      Escribe: .vd/RF-NNN/frontend.md
+      Tokens del prototipo -> tema del proyecto.
+      data-id -> identificador de pruebas.
+      Pruebas primero; suite + lint + build en verde.
+      Recorrido en la app local y comparación
+      con el prototipo.
+    end note
+  }
+
+  partition "5. Pruebas manuales" {
+    :**/vd-qa**
+    Genera el plan de pruebas manuales
+    y prepara el entorno local;
+    note right
+      Escribe: .vd/RF-NNN/qa.md + qa/plan.json
+      Casos por criterio de aceptación, por estado
+      de ux.md y exploratorios. Datos de prueba
+      creados en la base local; app levantada.
+    end note
+    |Usuario|
+    :Ejecuta los casos en la app y los marca
+    en design/qa.html (pasa / falla / bloqueado);
+    note right: Resultados en .vd/RF-NNN/qa/results.json
+    |Skills|
+    :**/vd-qa** reproduce cada fallo,
+    busca la causa raíz y clasifica su origen;
+    note right
+      Un fallo vuelve a la fase que lo originó:
+      requerimiento, UI/UX, base de datos,
+      backend o frontend. Tras corregir,
+      nueva ronda con los casos afectados.
+    end note
+  }
+
+  if (¿Todas las pruebas pasan?) then (sí)
+    :**/vd-ship**
+    Verificación final, rama y commits por capa
+    (diseño, BD, backend, frontend);
+    |Usuario|
+    :Confirma push y PR/MR;
+    |Skills|
+    :**/vd-ship** sube la rama, abre el PR/MR
+    y marca el requerimiento como entregado;
+  else (no)
+    :Vuelve a la fase indicada por **/vd-qa**;
+    note right: Ver estados-funcionalidad.puml
+  endif
+
+repeat while (¿Quedan funcionalidades en el backlog?) is (sí) not (no)
+
+|Usuario|
+:Producto completo;
+stop
+
+legend right
+  **/vd-next** puede invocarse en cualquier momento:
+  lee .vd/state.yaml y dice qué skill toca.
+  El estado vive en archivos, no en agentes:
+  cada skill lee lo que dejó la fase anterior.
+  Una funcionalidad termina por completo
+  (UI/UX -> BD -> backend -> frontend -> pruebas)
+  antes de empezar la siguiente.
+endlegend
+
+@enduml

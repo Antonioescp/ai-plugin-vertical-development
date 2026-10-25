@@ -1,0 +1,40 @@
+@startuml RF-NNN-db
+' Modelo de datos de RF-NNN (notación de ingeniería de la información).
+' Estereotipos: <<nueva>>, <<modificada>>, <<existente>>. En .vd/db/modelo.puml no se usan.
+' "*" marca atributos obligatorios. Ejemplo: reemplázalo por las entidades de db.md.
+title RF-NNN — Modelo de datos
+hide circle
+skinparam linetype ortho
+skinparam class {
+  BackgroundColor<<nueva>> #E8F5E9
+  BorderColor<<nueva>> #2E7D32
+  BackgroundColor<<modificada>> #FFF8E1
+  BorderColor<<modificada>> #F9A825
+  BackgroundColor<<existente>> #F5F5F5
+  BorderColor<<existente>> #9E9E9E
+}
+
+entity "usuarios" as usuarios <<nueva>> {
+  * id : uuid <<PK>>
+  --
+  * nombre : varchar(120)
+  * correo : varchar(254) <<UQ lower>>
+  * clave_hash : varchar(255)
+  * correo_confirmado : boolean = false
+  * created_at : timestamptz
+  * updated_at : timestamptz
+}
+
+entity "confirmaciones_correo" as confirmaciones <<nueva>> {
+  * id : uuid <<PK>>
+  --
+  * usuario_id : uuid <<FK>>
+  * token_hash : varchar(255) <<UQ>>
+  * expira_en : timestamptz
+  usado_en : timestamptz
+  * created_at : timestamptz
+}
+
+usuarios ||--o{ confirmaciones : "tiene"
+
+@enduml

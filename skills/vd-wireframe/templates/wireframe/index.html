@@ -1,0 +1,75 @@
+<!doctype html>
+<!--
+  Wireframe de RF-NNN — <Título del requerimiento>
+  Plantilla con un ejemplo (registro de usuarios): reemplaza las pantallas por las de ux.md.
+  - Cada <section data-screen> es una pantalla; data-states lista sus estados en el orden de ux.md.
+  - Los elementos con data-show-in solo se muestran en esos estados.
+  - Cada componente de ux.md lleva data-id="<pantalla>.<elemento>": es lo que el usuario
+    selecciona al comentar y lo que aparece en review/comments.json.
+  - Las acciones navegan con enlaces (#P2/exito); el comportamiento real llega en el prototipo.
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RF-NNN — Wireframe</title>
+  <link rel="stylesheet" href="../../design/wireframe.css">
+  <script defer src="../../design/proto.js"></script>
+</head>
+<body data-rf="RF-NNN" data-fase="wireframe">
+  <main id="app">
+
+    <section data-screen="P1" data-title="Crear cuenta"
+             data-states="inicial cargando error-validacion error-sistema">
+      <div class="page">
+        <form class="card stack" data-id="P1.formulario" novalidate>
+          <div class="stack center" data-id="P1.encabezado">
+            <h1 class="title">Crea tu cuenta</h1>
+            <p class="subtitle">Empieza en menos de un minuto.</p>
+          </div>
+
+          <div class="alert alert-error" role="alert" data-id="P1.error-sistema" data-show-in="error-sistema">
+            No pudimos crear tu cuenta. Inténtalo de nuevo en unos minutos.
+          </div>
+
+          <div class="field" data-id="P1.nombre">
+            <label for="nombre">Nombre</label>
+            <input id="nombre">
+            <span class="field-error" data-show-in="error-validacion">Escribe tu nombre.</span>
+          </div>
+
+          <div class="field" data-id="P1.correo">
+            <label for="correo">Correo electrónico</label>
+            <input id="correo" type="email">
+            <span class="field-error" data-show-in="error-validacion">Ya existe una cuenta con este correo.</span>
+          </div>
+
+          <div class="field" data-id="P1.clave">
+            <label for="clave">Contraseña</label>
+            <input id="clave" type="password">
+            <span class="muted">Mínimo 8 caracteres.</span>
+          </div>
+
+          <a class="btn btn-primary btn-block" data-id="P1.crear-cuenta" href="#P2/exito">
+            <span class="spinner" data-show-in="cargando" aria-hidden="true"></span>
+            Crear cuenta
+          </a>
+
+          <p class="muted center" data-id="P1.ir-a-login">¿Ya tienes cuenta? <a href="#">Inicia sesión</a></p>
+        </form>
+      </div>
+    </section>
+
+    <section data-screen="P2" data-title="Cuenta creada" data-states="exito">
+      <div class="page">
+        <div class="card stack center" data-id="P2.confirmacion">
+          <h1 class="title">¡Listo!</h1>
+          <p class="subtitle">Enviamos un enlace de confirmación a <strong>nuevo.usuario@ejemplo.com</strong>.</p>
+          <a class="btn btn-secondary" data-id="P2.volver" href="#P1">Volver al inicio</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

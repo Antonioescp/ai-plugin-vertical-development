@@ -1,0 +1,15 @@
+@startuml RF-NNN-flujo
+' Navegación entre pantallas de RF-NNN.
+' Un estado por pantalla o modal; las transiciones son acciones del usuario o del sistema.
+title RF-NNN — Flujo de pantallas
+hide empty description
+
+state "P1 <Pantalla>" as P1
+state "P2 <Pantalla>" as P2
+
+[*] --> P1 : <cómo se llega>
+P1 --> P1 : <acción> [error de validación]
+P1 --> P2 : <acción> [éxito]
+P2 --> [*]
+
+@enduml
