@@ -145,7 +145,10 @@ Solo con aprobación explícita del usuario:
 
 1. Pon `prototipo: aprobado` en el frontmatter de `ux.md`.
 2. Actualiza `.vd/state.yaml` con `fase: prototipo_aprobado`.
-3. Indica el siguiente paso: `/vertical-dev:db RF-NNN`.
+3. Indica el siguiente paso: `/vertical-dev:db RF-NNN`. Si el requerimiento es pequeño
+   (criterios en "Cuándo usarlo" de [../build/SKILL.md](../build/SKILL.md)), propón
+   también `/vertical-dev:build RF-NNN`, que hace base de datos, backend y frontend en
+   una sola pasada con una única revisión.
 
 ## Reglas
 

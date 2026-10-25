@@ -90,62 +90,80 @@ repeat :Toma la siguiente funcionalidad pendiente;
     repeat while (¿Prototipo aprobado?) is (no, iterar) not (sí)
   }
 
-  partition "2. Base de datos" {
-    :**/vertical-dev:db**
-    Modela SOLO la porción que necesita
-    esta funcionalidad;
-    note right
-      Entrada: datos que captura/muestra ux.md
-      y el esquema existente del proyecto.
-      Escribe: .vd/RF-NNN/db.md + db.puml (ER)
-      Trazabilidad data-id -> entidad.atributo
-    end note
-    |Usuario|
-    :Revisa y aprueba el modelo;
-    |Skills|
-    :**/vertical-dev:db** genera la migración reversible
-    y la verifica en la base local;
-    note right
-      Con la herramienta de migraciones del proyecto.
-      Integra la porción en .vd/db/modelo.puml.
-    end note
-  }
+  if (¿Requerimiento pequeño?) then (sí)
+    partition "2-4. Modo compacto" {
+      :**/vertical-dev:build**
+      Modelo, contrato y plan de pantallas juntos;
+      note right
+        Escribe: db.md, api.md, frontend.md (versión breve)
+        con las reglas de /vertical-dev:db, backend y frontend.
+      end note
+      |Usuario|
+      :Aprueba el plan completo (una sola revisión);
+      |Skills|
+      :**/vertical-dev:build** migración, backend y frontend
+      sin paradas: pruebas primero, suite + lint + build
+      en verde y recorrido en la app local;
+    }
+  else (no)
+    partition "2. Base de datos" {
+      :**/vertical-dev:db**
+      Modela SOLO la porción que necesita
+      esta funcionalidad;
+      note right
+        Entrada: datos que captura/muestra ux.md
+        y el esquema existente del proyecto.
+        Escribe: .vd/RF-NNN/db.md + db.puml (ER)
+        Trazabilidad data-id -> entidad.atributo
+      end note
+      |Usuario|
+      :Revisa y aprueba el modelo;
+      |Skills|
+      :**/vertical-dev:db** genera la migración reversible
+      y la verifica en la base local;
+      note right
+        Con la herramienta de migraciones del proyecto.
+        Integra la porción en .vd/db/modelo.puml.
+      end note
+    }
 
-  partition "3. Backend" {
-    :**/vertical-dev:backend**
-    Contrato de API derivado de ux.md + db.md,
-    siguiendo los patrones del backend existente;
-    note right
-      Escribe: .vd/RF-NNN/api.md
-      Operaciones, validaciones, códigos de error
-      estables enlazados a los estados de ux.md.
-    end note
-    |Usuario|
-    :Aprueba el contrato;
-    |Skills|
-    :**/vertical-dev:backend**
-    Pruebas primero (rojo), implementación (verde);
-    note right
-      Código en las rutas de backend del perfil.
-      Suite completa + lint + build en verde
-      y prueba contra la API local.
-    end note
-  }
+    partition "3. Backend" {
+      :**/vertical-dev:backend**
+      Contrato de API derivado de ux.md + db.md,
+      siguiendo los patrones del backend existente;
+      note right
+        Escribe: .vd/RF-NNN/api.md
+        Operaciones, validaciones, códigos de error
+        estables enlazados a los estados de ux.md.
+      end note
+      |Usuario|
+      :Aprueba el contrato;
+      |Skills|
+      :**/vertical-dev:backend**
+      Pruebas primero (rojo), implementación (verde);
+      note right
+        Código en las rutas de backend del perfil.
+        Suite completa + lint + build en verde
+        y prueba contra la API local.
+      end note
+    }
 
-  partition "4. Frontend" {
-    :**/vertical-dev:frontend**
-    Implementa las pantallas del prototipo aprobado
-    con los componentes del proyecto,
-    consumiendo el contrato de api.md;
-    note right
-      Escribe: .vd/RF-NNN/frontend.md
-      Tokens del prototipo -> tema del proyecto.
-      data-id -> identificador de pruebas.
-      Pruebas primero; suite + lint + build en verde.
-      Recorrido en la app local y comparación
-      con el prototipo.
-    end note
-  }
+    partition "4. Frontend" {
+      :**/vertical-dev:frontend**
+      Implementa las pantallas del prototipo aprobado
+      con los componentes del proyecto,
+      consumiendo el contrato de api.md;
+      note right
+        Escribe: .vd/RF-NNN/frontend.md
+        Tokens del prototipo -> tema del proyecto.
+        data-id -> identificador de pruebas.
+        Pruebas primero; suite + lint + build en verde.
+        Recorrido en la app local y comparación
+        con el prototipo.
+      end note
+    }
+
+  endif
 
   partition "5. Pruebas manuales" {
     :**/vertical-dev:qa**

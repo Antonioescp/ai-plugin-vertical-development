@@ -144,6 +144,8 @@ Si hay incidencias que no son de entorno:
    Las fases siguientes se revisan: las que no se ven afectadas por la corrección (p. ej.
    un cambio visual no toca `db.md` ni `api.md`) se saltan dejando constancia en
    `state.yaml` y en su historial; las afectadas se rehacen.
+   Si el requerimiento tiene `modo: compacto`, quítalo: las correcciones se hacen con
+   los skills separados de cada capa.
 2. Pon `estado: con_fallos` en `qa.md`.
 3. Explica al usuario las incidencias, su causa y el siguiente paso (p. ej.
    `/vertical-dev:backend RF-NNN`), recordando que cada skill corrige con una prueba que reproduce

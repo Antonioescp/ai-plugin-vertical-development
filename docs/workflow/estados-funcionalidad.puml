@@ -23,6 +23,17 @@ bd_modelada --> backend_listo : /vertical-dev:backend\n(contrato aprobado, prueb
 backend_listo --> frontend_listo : /vertical-dev:frontend\n(pruebas y build en verde)
 frontend_listo --> en_pruebas : /vertical-dev:qa (plan y entorno listos)
 
+prototipo_aprobado --> implementacion_en_revision : /vertical-dev:build\n(requerimiento pequeño)
+implementacion_en_revision --> implementacion_en_revision : feedback del plan
+implementacion_en_revision --> bd_modelada : plan aprobado\n+ migración verificada
+
+note right of implementacion_en_revision
+  Modo compacto (modo: compacto en state.yaml):
+  una sola revisión de modelo, contrato y pantallas;
+  /vertical-dev:build sigue sin paradas por
+  bd_modelada y backend_listo hasta frontend_listo.
+end note
+
 en_pruebas --> aceptada : todos los casos pasan
 en_pruebas --> en_pruebas : fallo de entorno\n(se corrige en /vertical-dev:qa)
 en_pruebas --> pendiente : fallo de requerimiento

@@ -18,6 +18,7 @@ Flujo completo, principios y diagramas: [docs/workflow/README.md](docs/workflow/
 | [`db`](skills/db/SKILL.md) | Modelo de datos mínimo y migración |
 | [`backend`](skills/backend/SKILL.md) | Contrato de API e implementación con pruebas |
 | [`frontend`](skills/frontend/SKILL.md) | Pantallas reales a partir del prototipo, con pruebas |
+| [`build`](skills/build/SKILL.md) | Atajo para requerimientos pequeños: `db` + `backend` + `frontend` en una pasada con una sola revisión |
 | [`qa`](skills/qa/SKILL.md) | Pruebas manuales guiadas y análisis de fallos |
 | [`ship`](skills/ship/SKILL.md) | Commits, push y PR/MR |
 | [`next`](skills/next/SKILL.md) | Dónde estamos y qué sigue |

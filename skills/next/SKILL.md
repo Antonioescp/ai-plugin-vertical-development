@@ -20,6 +20,7 @@ trabajo en cualquier sesión.
    RF-001:
      fase: backend_listo
      iteracion: 3        # rondas de revisión de la fase actual; se reinicia al cambiar de fase
+     modo: compacto      # opcional: lo pone /vertical-dev:build mientras implementa las tres capas
    ```
 
    `state.yaml` es el único contador de iteraciones; los documentos de cada fase solo
@@ -43,7 +44,9 @@ trabajo en cualquier sesión.
 | `wireframes_en_revision` | `/vertical-dev:wireframe RF-NNN`: revisar comentarios o esperar aprobación |
 | `wireframes_aprobados` | `/vertical-dev:prototype RF-NNN` |
 | `prototipo_en_revision` | `/vertical-dev:prototype RF-NNN`: revisar comentarios o esperar aprobación |
-| `prototipo_aprobado` | `/vertical-dev:db RF-NNN` |
+| `prototipo_aprobado` | `/vertical-dev:db RF-NNN`, o `/vertical-dev:build RF-NNN` si el requerimiento es pequeño (criterios en "Cuándo usarlo" de `/vertical-dev:build`) |
+| `implementacion_en_revision` | `/vertical-dev:build RF-NNN`: esperar aprobación del plan (modelo, contrato y pantallas) |
+| `bd_modelada` o `backend_listo` con `modo: compacto` | `/vertical-dev:build RF-NNN`: retoma la implementación donde quedó |
 | `bd_en_revision` | `/vertical-dev:db RF-NNN`: esperar aprobación del modelo o generar la migración |
 | `bd_modelada` | `/vertical-dev:backend RF-NNN` (si `api.md` está `en_revision`, falta aprobar el contrato) |
 | `backend_listo` | `/vertical-dev:frontend RF-NNN` |
@@ -64,7 +67,8 @@ desarrollo, señálalo: es una desviación del flujo que el usuario debería con
   (`fase: "wireframe"` o `"prototipo"`): cuántos y en qué pantallas. Si tienen
   `respuesta`, el skill ya los atendió y el usuario debe revisarlos.
 - Casos `pendiente` en la última ronda de `qa/results.json`.
-- Aprobaciones esperadas: `ux.md` en revisión, `db.md` o `api.md` en `en_revision`.
+- Aprobaciones esperadas: `ux.md` en revisión, `db.md` o `api.md` en `en_revision`
+  (en `implementacion_en_revision`, el plan completo de `/vertical-dev:build`).
 - Preguntas abiertas en el requerimiento o en los artefactos de la fase actual.
 
 **Inconsistencias.** Señálalas sin corregirlas; el skill de la fase correspondiente las

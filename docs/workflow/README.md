@@ -28,6 +28,14 @@ punta** antes de empezar la siguiente:
 
 Al terminar, la funcionalidad está completa y usable aunque falten otras en el backlog.
 
+**Modo compacto.** Para requerimientos pequeños (sin cambios de esquema o con una sola
+entidad nueva, pocas operaciones que siguen un patrón existente, sin datos sensibles),
+`/vertical-dev:build` hace los pasos 2, 3 y 4 en una sola pasada: el modelo, el contrato
+y el plan de pantallas se aprueban juntos en una única revisión y después se implementa
+sin paradas. Produce los mismos artefactos y recorre las mismas fases, así que pruebas
+manuales, entrega y correcciones funcionan igual. Las reglas de cada capa siguen siendo
+las de `/vertical-dev:db`, `/vertical-dev:backend` y `/vertical-dev:frontend`.
+
 ## Principios
 
 1. **Solo skills, sin agentes.** Cada fase es un skill (`/vd-*`) que se ejecuta en la
@@ -37,7 +45,7 @@ Al terminar, la funcionalidad está completa y usable aunque falten otras en el 
 3. **El diseño manda.** La UI/UX aprobada define qué datos se capturan y muestran; de ahí
    salen el modelo de datos y el contrato de API. No se modela nada que la UX no use.
 4. **Puertas humanas.** El usuario aprueba el backlog, la UI/UX (iterando), el modelo de
-   datos y el contrato de API, y ejecuta las pruebas manuales.
+   datos y el contrato de API (en modo compacto, juntos), y ejecuta las pruebas manuales.
 5. **Los fallos regresan a su origen.** Un fallo en pruebas manuales se clasifica por fase
    y el trabajo se rehace desde esa fase hacia abajo.
 6. **Agnóstico al stack.** Todo lo específico del proyecto (rutas, comandos) vive en
@@ -54,6 +62,7 @@ Al terminar, la funcionalidad está completa y usable aunque falten otras en el 
 | [`/vertical-dev:db`](../../skills/db/SKILL.md) | 2. Base de datos | `ux.md`, esquema actual | `db.md`, `db.puml`, migración |
 | [`/vertical-dev:backend`](../../skills/backend/SKILL.md) | 3. Backend | `ux.md`, `db.md`, backend existente | `api.md`, código, pruebas |
 | [`/vertical-dev:frontend`](../../skills/frontend/SKILL.md) | 4. Frontend | prototipo, `ux.md`, `api.md`, frontend existente | `frontend.md`, código, pruebas |
+| [`/vertical-dev:build`](../../skills/build/SKILL.md) | 2–4. Modo compacto | `ux.md`, prototipo, esquema, backend y frontend existentes | `db.md`, `api.md`, `frontend.md`, migración, código, pruebas |
 | [`/vertical-dev:qa`](../../skills/qa/SKILL.md) | 5. Pruebas manuales | criterios, `ux.md`, app en local | `qa.md`, `qa/plan.json`, `qa/results.json` |
 | [`/vertical-dev:ship`](../../skills/ship/SKILL.md) | entrega | `qa.md` aceptado | rama, commits, PR/MR |
 | [`/vertical-dev:next`](../../skills/next/SKILL.md) | cualquiera | `.vd/state.yaml`, backlog, artefactos | siguiente skill y pendientes del usuario |
