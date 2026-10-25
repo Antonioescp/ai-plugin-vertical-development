@@ -1,0 +1,14 @@
+{
+  "name": "vertical-dev",
+  "description": "Plugin de desarrollo vertical con skills para Claude Code.",
+  "owner": {
+    "name": "Toni"
+  },
+  "plugins": [
+    {
+      "name": "vertical-dev",
+      "source": "./",
+      "description": "Desarrollo vertical con skills: de los requerimientos a la entrega, un requerimiento a la vez."
+    }
+  ]
+}

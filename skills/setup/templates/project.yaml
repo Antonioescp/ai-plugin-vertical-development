@@ -1,0 +1,58 @@
+# Perfil del proyecto para el flujo de desarrollo vertical (vd).
+# Lo crea /vertical-dev:setup y lo completan las fases que necesitan más datos.
+# Un valor null significa "aún no definido": la fase que lo necesite lo deducirá o preguntará.
+
+proyecto:
+  nombre: null
+  idioma: es                      # idioma de la documentación y de las conversaciones
+
+frontend:
+  paths: []                       # p. ej. ["web/src"]
+  framework: null                 # p. ej. react, vue, angular, svelte, flutter, swiftui…
+  styling: null                   # lo completa /vertical-dev:frontend
+  test_id_attribute: null         # lo completa /vertical-dev:frontend
+  commands:
+    install: null
+    test: null
+    lint: null
+    build: null
+    run: null
+
+backend:
+  paths: []
+  framework: null
+  api_style: null                 # lo completa /vertical-dev:backend
+  error_format: null
+  architecture: null
+  commands:
+    install: null
+    test: null
+    lint: null
+    build: null
+    run: null
+
+database:
+  engine: null
+  migrations_dir: null
+  migration_tool: null            # p. ej. prisma, alembic, flyway, ef core, rails…
+  conventions: null               # lo completa /vertical-dev:db
+  local: null                     # cómo se levanta la base local, p. ej. "docker compose up db"
+  commands:
+    new_migration: null           # admite {name}
+    migrate: null
+    rollback: null
+
+ux:
+  platforms: null                 # lo pregunta /vertical-dev:wireframe
+
+git:
+  base_branch: null
+  branch_pattern: "vd/{id}-{slug}"
+  commit_style: null              # lo deduce o pregunta /vertical-dev:ship
+  commits: null
+  delivery: null
+  version_vd: null
+
+tools:
+  node: null                      # versión de Node.js; habilita el servidor de revisión
+  plantuml: null                  # comando o ruta de plantuml.jar para validar diagramas

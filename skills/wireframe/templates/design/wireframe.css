@@ -1,0 +1,109 @@
+/* Estilo de baja fidelidad para wireframes. Usa los mismos nombres de clase que
+   components.css del prototipo: al pasar a /vertical-dev:prototype solo se cambia la hoja de estilos. */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+  background: #f4f4f4;
+}
+
+[hidden] { display: none !important; }
+
+/* Layout */
+.page { min-height: 100vh; display: grid; place-items: center; padding: 1.5rem 1rem; }
+.card {
+  width: 100%;
+  max-width: 28rem;
+  padding: 2rem 1.5rem;
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 6px;
+}
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+.row { display: flex; gap: 0.75rem; align-items: center; }
+.center { text-align: center; }
+
+/* Texto */
+.title { margin: 0; font-size: 1.5rem; font-weight: 700; }
+.subtitle { margin: 0; color: #777; }
+.muted { color: #777; font-size: 0.875rem; }
+a { color: #333; }
+
+/* Campos */
+.field { display: flex; flex-direction: column; gap: 0.25rem; }
+.field label { font-weight: 700; font-size: 0.875rem; }
+.field input, .field select, .field textarea {
+  font: inherit;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #999;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+}
+.field.is-invalid input, .field.is-invalid select, .field.is-invalid textarea { border-style: dashed; border-color: #333; }
+.field-error { font-size: 0.875rem; font-style: italic; }
+.field-error::before { content: "⚠ "; }
+.field-error:empty { display: none; }
+.checkbox { display: flex; gap: 0.5rem; align-items: flex-start; }
+
+/* Botones */
+.btn {
+  font: inherit;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #333;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-primary { background: #333; color: #fff; }
+.btn-secondary { background: #fff; }
+.btn-block { width: 100%; }
+.btn:disabled { opacity: 0.5; }
+
+/* Alertas */
+.alert { padding: 0.75rem 1rem; border: 2px dashed #333; border-radius: 4px; }
+.alert-error::before { content: "✕ "; font-weight: 700; }
+.alert-success::before { content: "✓ "; font-weight: 700; }
+
+/* Indicador de carga */
+.spinner::before { content: "⟳"; }
+
+/* Responsivo. Se usa @container (no @media) para que la vista móvil de la barra de
+   revisión, que estrecha #app, active estas reglas. No se reordena con `order`: el
+   orden del DOM debe ser el visual para que el foco del teclado lo siga. */
+@container app (max-width: 640px) {
+  .row-movil-columna { flex-direction: column; align-items: stretch; }
+  .btn-block-movil { width: 100%; }
+}
+
+/* Solo wireframes */
+.wf-image {
+  display: grid;
+  place-items: center;
+  min-height: 8rem;
+  border: 2px solid #999;
+  background:
+    linear-gradient(to top right, transparent calc(50% - 1px), #bbb, transparent calc(50% + 1px)),
+    linear-gradient(to bottom right, transparent calc(50% - 1px), #bbb, transparent calc(50% + 1px));
+  color: #777;
+  font-size: 0.875rem;
+}
+.wf-note {
+  padding: 0.5rem 0.75rem;
+  border-left: 4px solid #999;
+  background: #fafafa;
+  color: #555;
+  font-size: 0.875rem;
+  font-style: italic;
+}

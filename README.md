@@ -11,31 +11,57 @@ Flujo completo, principios y diagramas: [docs/workflow/README.md](docs/workflow/
 
 | Skill | Para qué |
 |---|---|
-| [`vd-setup`](skills/vd-setup/SKILL.md) | Detecta el stack y crea `.vd/project.yaml` |
-| [`vd-requirements`](skills/vd-requirements/SKILL.md) | Requerimientos verticales en `docs/requirements/` |
-| [`vd-wireframe`](skills/vd-wireframe/SKILL.md) | Wireframes HTML de baja fidelidad con comentarios por componente |
-| [`vd-prototype`](skills/vd-prototype/SKILL.md) | Prototipo HTML navegable de alta fidelidad |
-| [`vd-db`](skills/vd-db/SKILL.md) | Modelo de datos mínimo y migración |
-| [`vd-backend`](skills/vd-backend/SKILL.md) | Contrato de API e implementación con pruebas |
-| [`vd-frontend`](skills/vd-frontend/SKILL.md) | Pantallas reales a partir del prototipo, con pruebas |
-| [`vd-qa`](skills/vd-qa/SKILL.md) | Pruebas manuales guiadas y análisis de fallos |
-| [`vd-ship`](skills/vd-ship/SKILL.md) | Commits, push y PR/MR |
-| [`vd-next`](skills/vd-next/SKILL.md) | Dónde estamos y qué sigue |
+| [`setup`](skills/setup/SKILL.md) | Detecta el stack y crea `.vd/project.yaml` |
+| [`requirements`](skills/requirements/SKILL.md) | Requerimientos verticales en `docs/requirements/` |
+| [`wireframe`](skills/wireframe/SKILL.md) | Wireframes HTML de baja fidelidad con comentarios por componente |
+| [`prototype`](skills/prototype/SKILL.md) | Prototipo HTML navegable de alta fidelidad |
+| [`db`](skills/db/SKILL.md) | Modelo de datos mínimo y migración |
+| [`backend`](skills/backend/SKILL.md) | Contrato de API e implementación con pruebas |
+| [`frontend`](skills/frontend/SKILL.md) | Pantallas reales a partir del prototipo, con pruebas |
+| [`qa`](skills/qa/SKILL.md) | Pruebas manuales guiadas y análisis de fallos |
+| [`ship`](skills/ship/SKILL.md) | Commits, push y PR/MR |
+| [`next`](skills/next/SKILL.md) | Dónde estamos y qué sigue |
 
 ## Instalación
 
-Copia (o enlaza) **todas** las carpetas de `skills/` juntas, porque algunas se
-referencian entre sí (p. ej. `vd-qa` usa el servidor de revisión de `vd-wireframe`):
+El repositorio es un plugin de Claude Code (`.claude-plugin/plugin.json`) y también su
+propio marketplace (`.claude-plugin/marketplace.json`).
 
-- Para un proyecto: en `<proyecto>/.claude/skills/`.
-- Para todos tus proyectos: en `~/.claude/skills/`.
+Desde GitHub, cuando el repositorio esté publicado:
 
-```bash
-cp -r skills/vd-* ~/.claude/skills/
+```
+/plugin install vertical-dev --marketplace <owner>/<repo>
 ```
 
-Después, en el proyecto: `/vd-setup`, `/vd-requirements` y `/vd-next` para saber qué
-sigue en cada momento.
+Desde una copia local:
+
+```
+/plugin marketplace add C:\ruta\a\vertical-dev
+/plugin install vertical-dev@vertical-dev
+```
+
+Para probar cambios sin instalar nada, arranca Claude Code con el plugin cargado desde
+disco:
+
+```bash
+claude --plugin-dir /ruta/a/vertical-dev
+```
+
+Como plugin, los skills se invocan con el nombre del plugin delante:
+`/vertical-dev:setup`, `/vertical-dev:requirements`, `/vertical-dev:next`… Claude también
+los usa solo cuando la petición encaja con su descripción.
+
+También funcionan sin plugin copiando **todas** las carpetas de `skills/` juntas (se
+referencian entre sí) en `<proyecto>/.claude/skills/` o `~/.claude/skills/`. Así se
+invocan sin prefijo (`/setup`, `/next`…), con el riesgo de chocar con otros skills de
+nombre genérico; por eso se recomienda instalarlo como plugin.
+
+Para validar el plugin tras un cambio:
+
+```bash
+claude plugin validate --strict .claude-plugin/plugin.json
+claude plugin validate --strict .claude-plugin/marketplace.json
+```
 
 ## Requisitos opcionales
 

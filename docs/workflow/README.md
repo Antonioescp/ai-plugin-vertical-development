@@ -41,33 +41,33 @@ Al terminar, la funcionalidad está completa y usable aunque falten otras en el 
 5. **Los fallos regresan a su origen.** Un fallo en pruebas manuales se clasifica por fase
    y el trabajo se rehace desde esa fase hacia abajo.
 6. **Agnóstico al stack.** Todo lo específico del proyecto (rutas, comandos) vive en
-   `.vd/project.yaml`, que genera `/vd-setup`.
+   `.vd/project.yaml`, que genera `/vertical-dev:setup`.
 
 ## Skills
 
 | Skill | Fase | Entrada | Salida |
 |---|---|---|---|
-| [`/vd-setup`](../../skills/vd-setup/SKILL.md) | preparación | repo del proyecto | `.vd/project.yaml`, `.vd/state.yaml` |
-| [`/vd-requirements`](../../skills/vd-requirements/SKILL.md) | preparación | descripción del usuario | `docs/requirements/` |
-| [`/vd-wireframe`](../../skills/vd-wireframe/SKILL.md) | 1a. UI/UX | `RF-NNN` aprobado | `ux.md`, `flujo.puml`, `wireframe/` |
-| [`/vd-prototype`](../../skills/vd-prototype/SKILL.md) | 1b. UI/UX | `ux.md`, `wireframe/` | `prototype/` |
-| [`/vd-db`](../../skills/vd-db/SKILL.md) | 2. Base de datos | `ux.md`, esquema actual | `db.md`, `db.puml`, migración |
-| [`/vd-backend`](../../skills/vd-backend/SKILL.md) | 3. Backend | `ux.md`, `db.md`, backend existente | `api.md`, código, pruebas |
-| [`/vd-frontend`](../../skills/vd-frontend/SKILL.md) | 4. Frontend | prototipo, `ux.md`, `api.md`, frontend existente | `frontend.md`, código, pruebas |
-| [`/vd-qa`](../../skills/vd-qa/SKILL.md) | 5. Pruebas manuales | criterios, `ux.md`, app en local | `qa.md`, `qa/plan.json`, `qa/results.json` |
-| [`/vd-ship`](../../skills/vd-ship/SKILL.md) | entrega | `qa.md` aceptado | rama, commits, PR/MR |
-| [`/vd-next`](../../skills/vd-next/SKILL.md) | cualquiera | `.vd/state.yaml`, backlog, artefactos | siguiente skill y pendientes del usuario |
+| [`/vertical-dev:setup`](../../skills/setup/SKILL.md) | preparación | repo del proyecto | `.vd/project.yaml`, `.vd/state.yaml` |
+| [`/vertical-dev:requirements`](../../skills/requirements/SKILL.md) | preparación | descripción del usuario | `docs/requirements/` |
+| [`/vertical-dev:wireframe`](../../skills/wireframe/SKILL.md) | 1a. UI/UX | `RF-NNN` aprobado | `ux.md`, `flujo.puml`, `wireframe/` |
+| [`/vertical-dev:prototype`](../../skills/prototype/SKILL.md) | 1b. UI/UX | `ux.md`, `wireframe/` | `prototype/` |
+| [`/vertical-dev:db`](../../skills/db/SKILL.md) | 2. Base de datos | `ux.md`, esquema actual | `db.md`, `db.puml`, migración |
+| [`/vertical-dev:backend`](../../skills/backend/SKILL.md) | 3. Backend | `ux.md`, `db.md`, backend existente | `api.md`, código, pruebas |
+| [`/vertical-dev:frontend`](../../skills/frontend/SKILL.md) | 4. Frontend | prototipo, `ux.md`, `api.md`, frontend existente | `frontend.md`, código, pruebas |
+| [`/vertical-dev:qa`](../../skills/qa/SKILL.md) | 5. Pruebas manuales | criterios, `ux.md`, app en local | `qa.md`, `qa/plan.json`, `qa/results.json` |
+| [`/vertical-dev:ship`](../../skills/ship/SKILL.md) | entrega | `qa.md` aceptado | rama, commits, PR/MR |
+| [`/vertical-dev:next`](../../skills/next/SKILL.md) | cualquiera | `.vd/state.yaml`, backlog, artefactos | siguiente skill y pendientes del usuario |
 
 ## Perfil de proyecto (`.vd/project.yaml`)
 
-Lo crea `/vd-setup` detectando el stack del repositorio (manifiestos, scripts, CI,
+Lo crea `/vertical-dev:setup` detectando el stack del repositorio (manifiestos, scripts, CI,
 docker compose, herramienta de migraciones, git) y preguntando solo lo que no puede
 deducir. Los valores que una fase necesita y aún no existen (`null`) los completa esa
-fase: `/vd-wireframe` las plataformas, `/vd-db` las convenciones de base de datos,
-`/vd-backend` el estilo de API, `/vd-frontend` el sistema de estilos y `/vd-ship` la
+fase: `/vertical-dev:wireframe` las plataformas, `/vertical-dev:db` las convenciones de base de datos,
+`/vertical-dev:backend` el estilo de API, `/vertical-dev:frontend` el sistema de estilos y `/vertical-dev:ship` la
 configuración de git.
 
-Estructura completa: [skills/vd-setup/templates/project.yaml](../../skills/vd-setup/templates/project.yaml).
+Estructura completa: [skills/setup/templates/project.yaml](../../skills/setup/templates/project.yaml).
 
 ## Estructura de archivos de trabajo
 

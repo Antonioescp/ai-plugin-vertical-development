@@ -1,0 +1,13 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "vertical-dev",
+  "version": "0.1.0",
+  "description": "Desarrollo vertical con skills: cada requerimiento se lleva de punta a punta (UI/UX, base de datos, backend, frontend, pruebas manuales y entrega) antes de empezar el siguiente. Agnóstico al stack; el estado vive en archivos del proyecto.",
+  "author": {
+    "name": "Toni"
+  },
+  "keywords": ["desarrollo vertical", "requerimientos", "wireframes", "prototipos", "qa"],
+  "skills": [
+    "./skills/"
+  ]
+}

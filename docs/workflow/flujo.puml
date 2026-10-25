@@ -12,7 +12,7 @@ de requerimientos;
 
 |Skills|
 if (¿Existe .vd/project.yaml?) then (no)
-  :**/vd-setup**
+  :**/vertical-dev:setup**
   Detecta el stack del repo y propone el perfil;
   note right
     Escribe: .vd/project.yaml
@@ -27,7 +27,7 @@ else (sí)
 endif
 
 repeat
-  :**/vd-requirements**
+  :**/vertical-dev:requirements**
   Convierte la descripción en requerimientos
   verticales priorizados;
   note right
@@ -50,7 +50,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
 
   partition "1. Diseño de producto (UI/UX)" {
     repeat
-      :**/vd-wireframe**
+      :**/vertical-dev:wireframe**
       Flujos de usuario y estructura de pantallas;
       note right
         Escribe: .vd/RF-NNN/ux.md, flujo.puml
@@ -73,7 +73,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
     repeat while (¿Estructura aprobada?) is (no, iterar) not (sí)
 
     repeat
-      :**/vd-prototype**
+      :**/vertical-dev:prototype**
       Prototipo HTML navegable sobre el mismo HTML del wireframe;
       note right
         Escribe: .vd/RF-NNN/prototype/ (index.html, app.js, data.js)
@@ -91,7 +91,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
   }
 
   partition "2. Base de datos" {
-    :**/vd-db**
+    :**/vertical-dev:db**
     Modela SOLO la porción que necesita
     esta funcionalidad;
     note right
@@ -103,7 +103,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
     |Usuario|
     :Revisa y aprueba el modelo;
     |Skills|
-    :**/vd-db** genera la migración reversible
+    :**/vertical-dev:db** genera la migración reversible
     y la verifica en la base local;
     note right
       Con la herramienta de migraciones del proyecto.
@@ -112,7 +112,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
   }
 
   partition "3. Backend" {
-    :**/vd-backend**
+    :**/vertical-dev:backend**
     Contrato de API derivado de ux.md + db.md,
     siguiendo los patrones del backend existente;
     note right
@@ -123,7 +123,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
     |Usuario|
     :Aprueba el contrato;
     |Skills|
-    :**/vd-backend**
+    :**/vertical-dev:backend**
     Pruebas primero (rojo), implementación (verde);
     note right
       Código en las rutas de backend del perfil.
@@ -133,7 +133,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
   }
 
   partition "4. Frontend" {
-    :**/vd-frontend**
+    :**/vertical-dev:frontend**
     Implementa las pantallas del prototipo aprobado
     con los componentes del proyecto,
     consumiendo el contrato de api.md;
@@ -148,7 +148,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
   }
 
   partition "5. Pruebas manuales" {
-    :**/vd-qa**
+    :**/vertical-dev:qa**
     Genera el plan de pruebas manuales
     y prepara el entorno local;
     note right
@@ -162,7 +162,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
     en design/qa.html (pasa / falla / bloqueado);
     note right: Resultados en .vd/RF-NNN/qa/results.json
     |Skills|
-    :**/vd-qa** reproduce cada fallo,
+    :**/vertical-dev:qa** reproduce cada fallo,
     busca la causa raíz y clasifica su origen;
     note right
       Un fallo vuelve a la fase que lo originó:
@@ -173,16 +173,16 @@ repeat :Toma la siguiente funcionalidad pendiente;
   }
 
   if (¿Todas las pruebas pasan?) then (sí)
-    :**/vd-ship**
+    :**/vertical-dev:ship**
     Verificación final, rama y commits por capa
     (diseño, BD, backend, frontend);
     |Usuario|
     :Confirma push y PR/MR;
     |Skills|
-    :**/vd-ship** sube la rama, abre el PR/MR
+    :**/vertical-dev:ship** sube la rama, abre el PR/MR
     y marca el requerimiento como entregado;
   else (no)
-    :Vuelve a la fase indicada por **/vd-qa**;
+    :Vuelve a la fase indicada por **/vertical-dev:qa**;
     note right: Ver estados-funcionalidad.puml
   endif
 
@@ -193,7 +193,7 @@ repeat while (¿Quedan funcionalidades en el backlog?) is (sí) not (no)
 stop
 
 legend right
-  **/vd-next** puede invocarse en cualquier momento:
+  **/vertical-dev:next** puede invocarse en cualquier momento:
   lee .vd/state.yaml y dice qué skill toca.
   El estado vive en archivos, no en agentes:
   cada skill lee lo que dejó la fase anterior.
