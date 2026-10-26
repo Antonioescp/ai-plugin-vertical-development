@@ -172,7 +172,8 @@ No des el skill por terminado con pruebas en rojo o con el recorrido principal r
 
 1. Resume al usuario: migración, operaciones, pantallas, pruebas añadidas, dependencias
    nuevas y cómo levantar la app para verlo.
-2. Indica el siguiente paso: `/vertical-dev:qa RF-NNN`.
+2. Indica el siguiente paso: `/vertical-dev:qa RF-NNN`, o `/vertical-dev:qa-auto RF-NNN`
+   si el usuario prefiere que Claude ejecute las pruebas.
 
 ## Cambios posteriores
 

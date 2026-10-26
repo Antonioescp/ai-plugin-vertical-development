@@ -50,7 +50,7 @@ trabajo en cualquier sesión.
 | `bd_en_revision` | `/vertical-dev:db RF-NNN`: esperar aprobación del modelo o generar la migración |
 | `bd_modelada` | `/vertical-dev:backend RF-NNN` (si `api.md` está `en_revision`, falta aprobar el contrato) |
 | `backend_listo` | `/vertical-dev:frontend RF-NNN` |
-| `frontend_listo` | `/vertical-dev:qa RF-NNN` |
+| `frontend_listo` | `/vertical-dev:qa RF-NNN`, o `/vertical-dev:qa-auto RF-NNN` para que Claude ejecute las pruebas (también para la ronda nueva tras corregir fallos) |
 | `en_pruebas` | el usuario prueba en `design/qa.html` o `/vertical-dev:qa-run RF-NNN` ejecuta los casos; si ya no quedan pendientes, `/vertical-dev:qa RF-NNN` analiza |
 | `aceptada` | `/vertical-dev:ship RF-NNN` |
 | `entregada` | siguiente requerimiento `aprobado` del backlog, o `/vertical-dev:requirements` |

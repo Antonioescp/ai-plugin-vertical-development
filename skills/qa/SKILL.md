@@ -105,7 +105,8 @@ responda en el chat con el resultado de cada uno.
    - cómo marcar: **Pasa**, **Falla** o **Bloqueado** (no pudo ejecutarlo), con una nota
      obligatoria en los dos últimos;
    - que te avise cuando termine.
-3. Ofrece también que Claude ejecute los casos con `/vertical-dev:qa-run RF-NNN`: los
+3. Ofrece también que Claude ejecute los casos con `/vertical-dev:qa-run RF-NNN` (o, en
+   adelante, que haga todo el QA con `/vertical-dev:qa-auto RF-NNN`): los
    recorre en la app, marca sus resultados como del agente con evidencia y deja
    pendientes para el usuario los que necesitan criterio humano.
 

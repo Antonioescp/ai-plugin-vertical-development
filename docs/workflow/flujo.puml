@@ -185,6 +185,8 @@ repeat :Toma la siguiente funcionalidad pendiente;
       en qa/evidencia/, y deja pendientes los que
       necesitan criterio humano. Aceptar con resultados
       del agente requiere confirmación del usuario.
+      **/vertical-dev:qa-auto** hace plan, entorno,
+      ejecución y análisis en una sola pasada.
     end note
     |Skills|
     :**/vertical-dev:qa** reproduce cada fallo,

@@ -150,7 +150,8 @@ No des la fase por terminada con pruebas en rojo o con el recorrido principal ro
    resultado de la verificación.
 2. Actualiza `.vd/state.yaml` con `fase: frontend_listo`.
 3. Resume al usuario qué se implementó y cómo levantar la app para verlo.
-4. Indica el siguiente paso: `/vertical-dev:qa RF-NNN`.
+4. Indica el siguiente paso: `/vertical-dev:qa RF-NNN`, o `/vertical-dev:qa-auto RF-NNN`
+   si el usuario prefiere que Claude ejecute las pruebas.
 
 ## Cambios posteriores
 
