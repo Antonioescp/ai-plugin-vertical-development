@@ -39,6 +39,12 @@ sin paradas. Produce los mismos artefactos y recorre las mismas fases, así que 
 manuales, entrega y correcciones funcionan igual. Las reglas de cada capa siguen siendo
 las de `/vertical-dev:db`, `/vertical-dev:backend` y `/vertical-dev:frontend`.
 
+`/vertical-dev:build-qa` va más allá: tras `build` hace las pruebas con
+`/vertical-dev:qa-auto` y corrige los fallos de implementación (prueba que lo reproduce
+primero, suites en verde, nueva ronda) hasta que todo pasa, con un máximo de tres rondas
+de corrección. Los fallos del diseño o de lo aprobado siguen necesitando al usuario, igual
+que la aprobación del plan, los casos de criterio humano y la aceptación.
+
 ## Principios
 
 1. **Solo skills, sin agentes.** Cada fase es un skill (`/vd-*`) que se ejecuta en la
@@ -69,6 +75,7 @@ las de `/vertical-dev:db`, `/vertical-dev:backend` y `/vertical-dev:frontend`.
 | [`/vertical-dev:qa`](../../skills/qa/SKILL.md) | 5. Pruebas manuales | criterios, `ux.md`, app en local | `qa.md`, `qa/plan.json`, `qa/results.json` |
 | [`/vertical-dev:qa-run`](../../skills/qa-run/SKILL.md) | 5. Pruebas manuales | `qa/plan.json`, app en local | resultados del agente en `qa/results.json`, `qa/evidencia/` |
 | [`/vertical-dev:qa-auto`](../../skills/qa-auto/SKILL.md) | 5. Pruebas (atajo) | criterios, `ux.md`, app en local | lo mismo que `qa` + `qa-run` |
+| [`/vertical-dev:build-qa`](../../skills/build-qa/SKILL.md) | 2–5. Piloto automático | lo mismo que `build` | lo mismo que `build` + `qa-auto`, con fallos corregidos |
 | [`/vertical-dev:ship`](../../skills/ship/SKILL.md) | entrega | `qa.md` aceptado | rama, commits, PR/MR |
 | [`/vertical-dev:next`](../../skills/next/SKILL.md) | cualquiera | `.vd/state.yaml`, backlog, artefactos | siguiente skill y pendientes del usuario |
 

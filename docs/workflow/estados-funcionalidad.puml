@@ -32,6 +32,9 @@ note right of implementacion_en_revision
   una sola revisión de modelo, contrato y pantallas;
   /vertical-dev:build sigue sin paradas por
   bd_modelada y backend_listo hasta frontend_listo.
+  Con /vertical-dev:build-qa (modo: build-qa) sigue
+  hasta en_pruebas y corrige los fallos de implementación
+  volviendo a en_pruebas hasta aceptada.
 end note
 
 en_pruebas --> aceptada : todos los casos pasan

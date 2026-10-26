@@ -22,6 +22,7 @@ Flujo completo, principios y diagramas: [docs/workflow/README.md](docs/workflow/
 | [`qa`](skills/qa/SKILL.md) | Pruebas manuales guiadas y análisis de fallos |
 | [`qa-run`](skills/qa-run/SKILL.md) | Claude ejecuta en la app los casos del plan de `qa` y marca resultados con evidencia |
 | [`qa-auto`](skills/qa-auto/SKILL.md) | Atajo: `qa` + `qa-run` en una pasada; el usuario solo completa lo humano y confirma |
+| [`build-qa`](skills/build-qa/SKILL.md) | Atajo de punta a punta: `build` + `qa-auto`, corrigiendo los fallos de implementación hasta la aceptación |
 | [`ship`](skills/ship/SKILL.md) | Commits, push y PR/MR |
 | [`next`](skills/next/SKILL.md) | Dónde estamos y qué sigue |
 

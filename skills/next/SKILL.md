@@ -20,7 +20,8 @@ trabajo en cualquier sesión.
    RF-001:
      fase: backend_listo
      iteracion: 3        # rondas de revisión de la fase actual; se reinicia al cambiar de fase
-     modo: compacto      # opcional: lo pone /vertical-dev:build mientras implementa las tres capas
+     modo: compacto      # opcional: lo pone /vertical-dev:build mientras implementa las tres capas,
+                         # o build-qa si /vertical-dev:build-qa lleva el requerimiento hasta aceptado
    ```
 
    `state.yaml` es el único contador de iteraciones; los documentos de cada fase solo
@@ -47,6 +48,7 @@ trabajo en cualquier sesión.
 | `prototipo_aprobado` | `/vertical-dev:db RF-NNN`, o `/vertical-dev:build RF-NNN` si el requerimiento es pequeño (criterios en "Cuándo usarlo" de `/vertical-dev:build`) |
 | `implementacion_en_revision` | `/vertical-dev:build RF-NNN`: esperar aprobación del plan (modelo, contrato y pantallas) |
 | `bd_modelada` o `backend_listo` con `modo: compacto` | `/vertical-dev:build RF-NNN`: retoma la implementación donde quedó |
+| cualquier fase de `implementacion_en_revision` a `en_pruebas` con `modo: build-qa` | `/vertical-dev:build-qa RF-NNN`: retoma donde quedó (implementación, pruebas o corrección) |
 | `bd_en_revision` | `/vertical-dev:db RF-NNN`: esperar aprobación del modelo o generar la migración |
 | `bd_modelada` | `/vertical-dev:backend RF-NNN` (si `api.md` está `en_revision`, falta aprobar el contrato) |
 | `backend_listo` | `/vertical-dev:frontend RF-NNN` |
