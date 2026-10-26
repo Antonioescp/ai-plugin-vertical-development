@@ -1,6 +1,6 @@
 ---
 name: ship
-description: Entrega un requerimiento (RF-NNN) aceptado en pruebas manuales. Hace una última verificación, separa los cambios del requerimiento, crea la rama y los commits siguiendo las convenciones del repositorio y, con confirmación del usuario, sube la rama y abre el PR o MR. Marca el requerimiento como entregado y propone el siguiente del backlog. Úsalo cuando el usuario pida entregar, publicar, hacer commit, push, PR o MR de un requerimiento, o cuando /vertical-dev:qa indique /vertical-dev:ship como siguiente paso.
+description: Entrega un requerimiento (RF-NNN) aceptado en pruebas manuales. Hace una última verificación, separa los cambios del requerimiento, crea la rama y los commits siguiendo las convenciones del repositorio y, con confirmación del usuario, sube la rama y abre el PR o MR. Marca el requerimiento como entregado y propone el siguiente del backlog. Úsalo cuando el usuario pida entregar, publicar, hacer commit, push, PR o MR de un requerimiento, o cuando /vd:qa indique /vd:ship como siguiente paso.
 ---
 
 # ship
@@ -26,7 +26,7 @@ Salidas: rama y commits; con confirmación, push y PR o MR (plantilla de descrip
 ### 1. Leer el contexto
 
 1. Identifica el requerimiento (`RF-NNN` indicado o el que tenga `fase: aceptada`).
-2. Si `qa.md` no está `aceptado`, detente y sugiere `/vertical-dev:qa`. Nada se entrega sin
+2. Si `qa.md` no está `aceptado`, detente y sugiere `/vd:qa`. Nada se entrega sin
    pruebas manuales aceptadas.
 3. Revisa la sección `git` de `.vd/project.yaml`. Lo que falte, dedúcelo del repositorio
    (`git remote -v`, rama por defecto, `git log` reciente) y confirma con el usuario
@@ -52,7 +52,7 @@ Salidas: rama y commits; con confirmación, push y PR o MR (plantilla de descrip
 ### 2. Verificación final
 
 1. Ejecuta los comandos `test`, `lint` y `build` de backend y frontend. Si algo falla,
-   **no entregues**: identifica el origen y devuélvelo a su fase como haría `/vertical-dev:qa`.
+   **no entregues**: identifica el origen y devuélvelo a su fase como haría `/vd:qa`.
 2. Comprueba que las migraciones del requerimiento están en el repositorio y que
    `db.md` las referencia.
 
@@ -135,7 +135,7 @@ Con la confirmación del usuario:
 
 1. Resume al usuario: rama, commits, enlace del PR o MR (o que quedó en local).
 2. Propón el siguiente requerimiento: el primero `aprobado` del backlog
-   (`/vertical-dev:wireframe RF-NNN`), o `/vertical-dev:requirements` si no queda ninguno aprobado.
+   (`/vd:wireframe RF-NNN`), o `/vd:requirements` si no queda ninguno aprobado.
 
 ## Reglas
 

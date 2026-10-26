@@ -1,12 +1,12 @@
 ---
 name: qa-auto
-description: Hace de una sola pasada las pruebas manuales de un requerimiento (RF-NNN) ya implementado, con Claude como ejecutor. Escribe el plan, prepara el entorno local, ejecuta los casos en la app, analiza los fallos y los devuelve a su fase, o pide al usuario confirmar la aceptación. El usuario solo completa los casos que necesitan criterio humano. Combina /vertical-dev:qa y /vertical-dev:qa-run con los mismos artefactos. Úsalo cuando el usuario pida que Claude haga el QA completo, pruebe el requerimiento él mismo o todo de una vez, o cuando /vertical-dev:frontend o /vertical-dev:build lo propongan.
+description: Hace de una sola pasada las pruebas manuales de un requerimiento (RF-NNN) ya implementado, con Claude como ejecutor. Escribe el plan, prepara el entorno local, ejecuta los casos en la app, analiza los fallos y los devuelve a su fase, o pide al usuario confirmar la aceptación. El usuario solo completa los casos que necesitan criterio humano. Combina /vd:qa y /vd:qa-run con los mismos artefactos. Úsalo cuando el usuario pida que Claude haga el QA completo, pruebe el requerimiento él mismo o todo de una vez, o cuando /vd:frontend o /vd:build lo propongan.
 ---
 
 # qa-auto
 
-Atajo de la fase 5 del flujo de desarrollo vertical. Une `/vertical-dev:qa` (plan,
-entorno, análisis y aceptación) y `/vertical-dev:qa-run` (ejecución de los casos) en una
+Atajo de la fase 5 del flujo de desarrollo vertical. Une `/vd:qa` (plan,
+entorno, análisis y aceptación) y `/vd:qa-run` (ejecución de los casos) en una
 sola invocación. Ya no hay que preparar, avisar, esperar y volver: Claude prepara,
 ejecuta y analiza seguido, y el usuario interviene solo en dos momentos:
 
@@ -15,7 +15,7 @@ ejecuta y analiza seguido, y el usuario interviene solo en dos momentos:
 
 Los artefactos (`qa.md`, `qa/plan.json`, `qa/results.json`, `qa/evidencia/`) y las fases
 de `.vd/state.yaml` son los mismos, así que en cualquier momento se puede seguir con
-`/vertical-dev:qa` o `/vertical-dev:qa-run` por separado.
+`/vd:qa` o `/vd:qa-run` por separado.
 
 ## Reglas de cada parte
 
@@ -27,7 +27,7 @@ Este skill no repite las reglas: léelas en los skills separados y aplícalas.
   ejecución de cada caso) y sus Reglas.
 
 Si no hay herramienta para controlar la app (navegador, emulador o automatización), este
-skill no aporta nada: dilo y sigue con `/vertical-dev:qa`, que deja las pruebas al
+skill no aporta nada: dilo y sigue con `/vd:qa`, que deja las pruebas al
 usuario.
 
 ## Proceso
@@ -36,7 +36,7 @@ usuario.
 
 1. Identifica el requerimiento (`RF-NNN` indicado o el que tenga
    `fase: frontend_listo` o `en_pruebas` en `.vd/state.yaml`).
-2. Si `frontend.md` no está `implementado`, detente y sugiere `/vertical-dev:frontend`.
+2. Si `frontend.md` no está `implementado`, detente y sugiere `/vd:frontend`.
 3. Comprueba que hay una herramienta para controlar la app (paso 2 de `qa-run`).
 4. Si ya existe `qa/results.json`, estás **retomando**:
    - la última ronda tiene casos `pendiente` del usuario → paso 5;
@@ -82,11 +82,11 @@ requerimiento, confírmalo con el usuario antes de reabrirlo.
 ### 7. Cerrar la ronda
 
 - **Hay incidencias**: devuelve el trabajo como en el paso 7 de `qa`. Indica el skill
-  que corrige y que, al terminar, `/vertical-dev:qa-auto RF-NNN` abre la ronda nueva y
+  que corrige y que, al terminar, `/vd:qa-auto RF-NNN` abre la ronda nueva y
   vuelve a ejecutar.
 - **Todo pasa**: pide la confirmación de la aceptación como en el paso 9 de `qa`,
   diciendo qué casos comprobó Claude y cuáles el usuario. Con la confirmación, acepta y
-  propone `/vertical-dev:ship RF-NNN`.
+  propone `/vd:ship RF-NNN`.
 
 ## Reglas
 

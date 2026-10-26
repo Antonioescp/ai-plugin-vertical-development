@@ -11,7 +11,7 @@ trabajo en cualquier sesión.
 
 ## Qué leer
 
-1. `.vd/project.yaml`. Si no existe, el siguiente paso es `/vertical-dev:setup` y no hace falta
+1. `.vd/project.yaml`. Si no existe, el siguiente paso es `/vd:setup` y no hace falta
    leer nada más.
 2. `docs/requirements/README.md`: orden del backlog y estado de cada requerimiento.
 3. `.vd/state.yaml`: fase de cada requerimiento en desarrollo.
@@ -20,8 +20,8 @@ trabajo en cualquier sesión.
    RF-001:
      fase: backend_listo
      iteracion: 3        # rondas de revisión de la fase actual; se reinicia al cambiar de fase
-     modo: compacto      # opcional: lo pone /vertical-dev:build mientras implementa las tres capas,
-                         # o build-qa si /vertical-dev:build-qa lleva el requerimiento hasta aceptado
+     modo: compacto      # opcional: lo pone /vd:build mientras implementa las tres capas,
+                         # o build-qa si /vd:build-qa lleva el requerimiento hasta aceptado
    ```
 
    `state.yaml` es el único contador de iteraciones; los documentos de cada fase solo
@@ -38,24 +38,24 @@ trabajo en cualquier sesión.
 
 | Situación | Siguiente paso |
 |---|---|
-| Sin `.vd/project.yaml` | `/vertical-dev:setup` |
-| Sin requerimientos, o ninguno `aprobado` ni en desarrollo | `/vertical-dev:requirements` |
-| Requerimiento `aprobado` sin fase (el primero del backlog) | `/vertical-dev:wireframe RF-NNN` |
-| `fase: pendiente` (QA encontró un fallo de requerimiento) | `/vertical-dev:requirements` para corregirlo y después `/vertical-dev:wireframe` |
-| `wireframes_en_revision` | `/vertical-dev:wireframe RF-NNN`: revisar comentarios o esperar aprobación |
-| `wireframes_aprobados` | `/vertical-dev:prototype RF-NNN` |
-| `prototipo_en_revision` | `/vertical-dev:prototype RF-NNN`: revisar comentarios o esperar aprobación |
-| `prototipo_aprobado` | `/vertical-dev:db RF-NNN`, o `/vertical-dev:build RF-NNN` si el requerimiento es pequeño (criterios en "Cuándo usarlo" de `/vertical-dev:build`) |
-| `implementacion_en_revision` | `/vertical-dev:build RF-NNN`: esperar aprobación del plan (modelo, contrato y pantallas) |
-| `bd_modelada` o `backend_listo` con `modo: compacto` | `/vertical-dev:build RF-NNN`: retoma la implementación donde quedó |
-| cualquier fase de `implementacion_en_revision` a `en_pruebas` con `modo: build-qa` | `/vertical-dev:build-qa RF-NNN`: retoma donde quedó (implementación, pruebas o corrección) |
-| `bd_en_revision` | `/vertical-dev:db RF-NNN`: esperar aprobación del modelo o generar la migración |
-| `bd_modelada` | `/vertical-dev:backend RF-NNN` (si `api.md` está `en_revision`, falta aprobar el contrato) |
-| `backend_listo` | `/vertical-dev:frontend RF-NNN` |
-| `frontend_listo` | `/vertical-dev:qa RF-NNN`, o `/vertical-dev:qa-auto RF-NNN` para que Claude ejecute las pruebas (también para la ronda nueva tras corregir fallos) |
-| `en_pruebas` | el usuario prueba en `design/qa.html` o `/vertical-dev:qa-run RF-NNN` ejecuta los casos; si ya no quedan pendientes, `/vertical-dev:qa RF-NNN` analiza |
-| `aceptada` | `/vertical-dev:ship RF-NNN` |
-| `entregada` | siguiente requerimiento `aprobado` del backlog, o `/vertical-dev:requirements` |
+| Sin `.vd/project.yaml` | `/vd:setup` |
+| Sin requerimientos, o ninguno `aprobado` ni en desarrollo | `/vd:requirements` |
+| Requerimiento `aprobado` sin fase (el primero del backlog) | `/vd:wireframe RF-NNN` |
+| `fase: pendiente` (QA encontró un fallo de requerimiento) | `/vd:requirements` para corregirlo y después `/vd:wireframe` |
+| `wireframes_en_revision` | `/vd:wireframe RF-NNN`: revisar comentarios o esperar aprobación |
+| `wireframes_aprobados` | `/vd:prototype RF-NNN` |
+| `prototipo_en_revision` | `/vd:prototype RF-NNN`: revisar comentarios o esperar aprobación |
+| `prototipo_aprobado` | `/vd:db RF-NNN`, o `/vd:build RF-NNN` si el requerimiento es pequeño (criterios en "Cuándo usarlo" de `/vd:build`) |
+| `implementacion_en_revision` | `/vd:build RF-NNN`: esperar aprobación del plan (modelo, contrato y pantallas) |
+| `bd_modelada` o `backend_listo` con `modo: compacto` | `/vd:build RF-NNN`: retoma la implementación donde quedó |
+| cualquier fase de `implementacion_en_revision` a `en_pruebas` con `modo: build-qa` | `/vd:build-qa RF-NNN`: retoma donde quedó (implementación, pruebas o corrección) |
+| `bd_en_revision` | `/vd:db RF-NNN`: esperar aprobación del modelo o generar la migración |
+| `bd_modelada` | `/vd:backend RF-NNN` (si `api.md` está `en_revision`, falta aprobar el contrato) |
+| `backend_listo` | `/vd:frontend RF-NNN` |
+| `frontend_listo` | `/vd:qa RF-NNN`, o `/vd:qa-auto RF-NNN` para que Claude ejecute las pruebas (también para la ronda nueva tras corregir fallos) |
+| `en_pruebas` | el usuario prueba en `design/qa.html` o `/vd:qa-run RF-NNN` ejecuta los casos; si ya no quedan pendientes, `/vd:qa RF-NNN` analiza |
+| `aceptada` | `/vd:ship RF-NNN` |
+| `entregada` | siguiente requerimiento `aprobado` del backlog, o `/vd:requirements` |
 
 Prioridad cuando hay varios requerimientos con fase: primero el que está más avanzado
 sin entregar; el flujo vertical termina uno antes de empezar otro. Si hay más de uno en
@@ -69,10 +69,10 @@ desarrollo, señálalo: es una desviación del flujo que el usuario debería con
   (`fase: "wireframe"` o `"prototipo"`): cuántos y en qué pantallas. Si tienen
   `respuesta`, el skill ya los atendió y el usuario debe revisarlos.
 - Casos `pendiente` en la última ronda de `qa/results.json` (los que dejó
-  `/vertical-dev:qa-run` necesitan criterio humano) y casos `pasa` con
+  `/vd:qa-run` necesitan criterio humano) y casos `pasa` con
   `"ejecutor": "agente"` que esperan la confirmación del usuario para aceptar.
 - Aprobaciones esperadas: `ux.md` en revisión, `db.md` o `api.md` en `en_revision`
-  (en `implementacion_en_revision`, el plan completo de `/vertical-dev:build`).
+  (en `implementacion_en_revision`, el plan completo de `/vd:build`).
 - Preguntas abiertas en el requerimiento o en los artefactos de la fase actual.
 
 **Inconsistencias.** Señálalas sin corregirlas; el skill de la fase correspondiente las

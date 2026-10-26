@@ -58,7 +58,7 @@ compatibilidad, o "Ninguno".>
 | Atributo | Tipo de dato | Tratamiento |
 |---|---|---|
 | `usuarios.correo` | PII | <acceso restringido, retención…> |
-| `usuarios.clave_hash` | credencial | hash con algoritmo adaptativo, decidido en /vertical-dev:backend |
+| `usuarios.clave_hash` | credencial | hash con algoritmo adaptativo, decidido en /vd:backend |
 
 ## Decisiones
 

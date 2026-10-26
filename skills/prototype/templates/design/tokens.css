@@ -1,5 +1,5 @@
 /* Tokens de diseño compartidos por todos los prototipos del proyecto.
-   /vertical-dev:frontend los traduce al sistema de estilos del stack real. */
+   /vd:frontend los traduce al sistema de estilos del stack real. */
 :root {
   /* Color */
   --color-primary: #2563eb;

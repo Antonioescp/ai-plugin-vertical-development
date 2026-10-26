@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Construye e itera un prototipo HTML navegable de alta fidelidad para un requerimiento (RF-NNN) cuyos wireframes HTML ya están aprobados, con estilo visual, datos simulados, validaciones y todos los estados de ux.md. El usuario lo revisa en el navegador y deja comentarios sobre componentes concretos. Úsalo cuando el usuario pida el prototipo, el diseño visual, la maqueta navegable o la experiencia de un requerimiento, cuando pida revisar o atender comentarios del prototipo, o cuando /vertical-dev:wireframe indique /vertical-dev:prototype como siguiente paso.
+description: Construye e itera un prototipo HTML navegable de alta fidelidad para un requerimiento (RF-NNN) cuyos wireframes HTML ya están aprobados, con estilo visual, datos simulados, validaciones y todos los estados de ux.md. El usuario lo revisa en el navegador y deja comentarios sobre componentes concretos. Úsalo cuando el usuario pida el prototipo, el diseño visual, la maqueta navegable o la experiencia de un requerimiento, cuando pida revisar o atender comentarios del prototipo, o cuando /vd:wireframe indique /vd:prototype como siguiente paso.
 ---
 
 # prototype
@@ -8,12 +8,12 @@ description: Construye e itera un prototipo HTML navegable de alta fidelidad par
 Fase 1b del flujo de desarrollo vertical. Convierte el wireframe aprobado en un
 prototipo que el usuario puede recorrer como si fuera la aplicación real: estilo visual,
 interacción, validaciones, estados y navegación, **sin backend**. El prototipo aprobado
-es la referencia visual de `/vertical-dev:frontend`.
+es la referencia visual de `/vd:frontend`.
 
 ## Entradas y salidas
 
 Entradas en `.vd/RF-NNN/`: `ux.md` con `estado: aprobado` y `wireframe/index.html`.
-Runtime en `.vd/design/` (`proto.js`, `review-server.mjs`), instalado por `/vertical-dev:wireframe`.
+Runtime en `.vd/design/` (`proto.js`, `review-server.mjs`), instalado por `/vd:wireframe`.
 
 Salidas:
 
@@ -56,7 +56,7 @@ Plantillas: [templates/design/](templates/design/) y [templates/prototype/](temp
 
 1. Identifica el requerimiento (`RF-NNN` indicado o el que tenga
    `fase: wireframes_aprobados` en `.vd/state.yaml`).
-2. Si `ux.md` no está `aprobado`, detente y sugiere `/vertical-dev:wireframe`.
+2. Si `ux.md` no está `aprobado`, detente y sugiere `/vd:wireframe`.
 3. Lee `ux.md`, `wireframe/index.html` y el requerimiento en `docs/requirements/`.
 4. Si `.vd/RF-NNN/prototype/` ya existe, estás **iterando**: ve al paso 6. Si no,
    pon `prototipo: en_revision` en `ux.md` y `fase: prototipo_en_revision` en
@@ -126,11 +126,11 @@ quedan en su navegador y debe **Exportar** a `review/comments.json` o **Copiar**
      ayuda, orden dentro de un bloque): aplícalo aquí.
    - **Estructural** (pantallas, navegación, componentes o estados nuevos o eliminados):
      no lo apliques. Pon `ux.md` en `estado: en_revision`, la fase en
-     `wireframes_en_revision` e indica `/vertical-dev:wireframe RF-NNN`. Tras reaprobar el
+     `wireframes_en_revision` e indica `/vd:wireframe RF-NNN`. Tras reaprobar el
      wireframe, vuelve aquí y lleva los cambios al prototipo.
    - **De requerimiento** (cambia qué hace la funcionalidad o queda fuera de su
      alcance): no lo apliques; propón un requerimiento nuevo o un cambio con
-     `/vertical-dev:requirements`. Si el usuario acepta, créalo en `borrador` siguiendo ese skill
+     `/vd:requirements`. Si el usuario acepta, créalo en `borrador` siguiendo ese skill
      y marca el comentario resuelto citando el nuevo `RF-NNN`.
    - **Ambiguo**: pregunta.
 3. Responde en el archivo: los aplicados pasan a `"estado": "resuelto"` con una
@@ -145,10 +145,10 @@ Solo con aprobación explícita del usuario:
 
 1. Pon `prototipo: aprobado` en el frontmatter de `ux.md`.
 2. Actualiza `.vd/state.yaml` con `fase: prototipo_aprobado`.
-3. Indica el siguiente paso: `/vertical-dev:db RF-NNN`. Si el requerimiento es pequeño
+3. Indica el siguiente paso: `/vd:db RF-NNN`. Si el requerimiento es pequeño
    (criterios en "Cuándo usarlo" de [../build/SKILL.md](../build/SKILL.md)), propón
-   también `/vertical-dev:build RF-NNN`, que hace base de datos, backend y frontend en
-   una sola pasada con una única revisión, o `/vertical-dev:build-qa RF-NNN`, que además
+   también `/vd:build RF-NNN`, que hace base de datos, backend y frontend en
+   una sola pasada con una única revisión, o `/vd:build-qa RF-NNN`, que además
    hace las pruebas con Claude como ejecutor y corrige los fallos hasta la aceptación.
 
 ## Reglas
@@ -157,5 +157,5 @@ Solo con aprobación explícita del usuario:
 - El prototipo no llama a ningún servidor de la aplicación ni guarda datos reales: todo
   se simula. El servidor de revisión solo sirve archivos y guarda comentarios.
 - No uses frameworks ni librerías: el prototipo es desechable y debe abrirse en cualquier
-  equipo. La implementación real la hace `/vertical-dev:frontend` con el stack del proyecto.
+  equipo. La implementación real la hace `/vd:frontend` con el stack del proyecto.
 - No marques nada como aprobado sin una aprobación explícita del usuario.

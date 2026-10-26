@@ -1,6 +1,6 @@
 ---
 name: frontend
-description: Implementa el frontend de un requerimiento (RF-NNN) cuyo backend ya está implementado, reproduciendo el prototipo aprobado con el stack, los componentes y los patrones del proyecto y consumiendo el contrato de api.md, con pruebas automáticas y verificación en la app real. Produce frontend.md y código con pruebas en verde. Úsalo cuando el usuario pida el frontend, las pantallas, la interfaz o la integración con la API de un requerimiento, o cuando /vertical-dev:backend indique /vertical-dev:frontend como siguiente paso.
+description: Implementa el frontend de un requerimiento (RF-NNN) cuyo backend ya está implementado, reproduciendo el prototipo aprobado con el stack, los componentes y los patrones del proyecto y consumiendo el contrato de api.md, con pruebas automáticas y verificación en la app real. Produce frontend.md y código con pruebas en verde. Úsalo cuando el usuario pida el frontend, las pantallas, la interfaz o la integración con la API de un requerimiento, o cuando /vd:backend indique /vd:frontend como siguiente paso.
 ---
 
 # frontend
@@ -8,7 +8,7 @@ description: Implementa el frontend de un requerimiento (RF-NNN) cuyo backend ya
 Fase 4 del flujo de desarrollo vertical. Lleva el prototipo aprobado al frontend real:
 mismas pantallas, estados, textos y aspecto, ahora con el stack del proyecto y
 conectado al backend de `api.md`. Termina con pruebas en verde, la app funcionando en
-local y la funcionalidad lista para las pruebas manuales de `/vertical-dev:qa`.
+local y la funcionalidad lista para las pruebas manuales de `/vd:qa`.
 
 ## Entradas y salidas
 
@@ -33,7 +33,7 @@ Salidas:
 
 1. Identifica el requerimiento (`RF-NNN` indicado o el que tenga `fase: backend_listo`
    en `.vd/state.yaml`).
-2. Si `api.md` no está `implementado`, detente y sugiere `/vertical-dev:backend`.
+2. Si `api.md` no está `implementado`, detente y sugiere `/vd:backend`.
 3. Lee `ux.md`, `api.md`, el requerimiento y el prototipo (`index.html`, `app.js`).
 4. Si `.vd/RF-NNN/frontend.md` ya existe, estás **retomando o iterando**: revisa su
    estado y continúa desde ahí.
@@ -66,7 +66,7 @@ frontend:
   requerimiento, o tokens nuevos), tradúcelos al sistema de estilos del proyecto: variables
   CSS, configuración de utilidades, tema del framework (p. ej. `ThemeData` en Flutter).
   No dupliques valores: una sola fuente de verdad en el proyecto.
-- Si el proyecto ya tenía identidad visual y `/vertical-dev:prototype` la tomó de ahí, solo
+- Si el proyecto ya tenía identidad visual y `/vd:prototype` la tomó de ahí, solo
   comprueba que coincide.
 - Para cada clase de `components.css` que usa el prototipo, usa el componente existente
   del proyecto o crea uno reutilizable si no existe. No copies el CSS del prototipo tal
@@ -80,7 +80,7 @@ Escribe en `frontend.md`:
 - **Elementos → componentes**: cada `data-id` de `ux.md` con el componente que lo
   implementa. El `data-id` se conserva como identificador de pruebas (atributo
   `frontend.test_id_attribute`, o el equivalente del framework, p. ej. `Key('P1.correo')`):
-  así lo usan las pruebas automáticas, `/vertical-dev:qa` y los comentarios de revisión.
+  así lo usan las pruebas automáticas, `/vd:qa` y los comentarios de revisión.
 - **Acciones → operaciones** de `api.md`.
 - **Códigos de error → mensajes**: cada código de `api.md` con el estado y el texto
   exacto de `ux.md`. Un error no previsto muestra el estado de error del sistema.
@@ -121,7 +121,7 @@ verifican en la app (paso 7) y la trazabilidad de `frontend.md` lo indica así.
 
 Si el contrato no encaja con lo que la UI necesita (falta un campo, un error no
 documentado, un formato distinto), **no lo rodees en el frontend**: vuelve a
-`/vertical-dev:backend` para ajustar `api.md` y el backend.
+`/vd:backend` para ajustar `api.md` y el backend.
 
 ### 7. Verificar
 
@@ -150,12 +150,12 @@ No des la fase por terminada con pruebas en rojo o con el recorrido principal ro
    resultado de la verificación.
 2. Actualiza `.vd/state.yaml` con `fase: frontend_listo`.
 3. Resume al usuario qué se implementó y cómo levantar la app para verlo.
-4. Indica el siguiente paso: `/vertical-dev:qa RF-NNN`, o `/vertical-dev:qa-auto RF-NNN`
+4. Indica el siguiente paso: `/vd:qa RF-NNN`, o `/vd:qa-auto RF-NNN`
    si el usuario prefiere que Claude ejecute las pruebas.
 
 ## Cambios posteriores
 
-Si `/vertical-dev:qa` detecta fallos de frontend, vuelve a este skill: añade primero la prueba que
+Si `/vd:qa` detecta fallos de frontend, vuelve a este skill: añade primero la prueba que
 reproduce el fallo y después corrígelo; actualiza el historial de `frontend.md`. Si el
 fallo no se puede probar con las herramientas del proyecto (p. ej. orden de foco sin
 pruebas de DOM), dilo en el historial y verifícalo en la app.
@@ -165,6 +165,6 @@ pruebas de DOM), dilo en el historial y verifícalo en la app.
 - Escribe la documentación en el idioma del usuario; el código sigue las convenciones
   del proyecto.
 - No cambies el diseño aprobado: un cambio visual o de comportamiento vuelve a
-  `/vertical-dev:prototype` (o a `/vertical-dev:wireframe` si es estructural).
+  `/vd:prototype` (o a `/vd:wireframe` si es estructural).
 - No cambies el contrato ni el esquema desde aquí.
-- No hagas commits: eso es `/vertical-dev:ship`.
+- No hagas commits: eso es `/vd:ship`.

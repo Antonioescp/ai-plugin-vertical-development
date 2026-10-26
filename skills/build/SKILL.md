@@ -1,12 +1,12 @@
 ---
 name: build
-description: Implementa de una sola pasada la base de datos, el backend y el frontend de un requerimiento pequeño (RF-NNN) con prototipo aprobado, con una única revisión del plan (modelo de datos, contrato de API y pantallas juntos) antes de programar. Produce los mismos artefactos que /vertical-dev:db, /vertical-dev:backend y /vertical-dev:frontend en versión breve, la migración y código con pruebas en verde. Úsalo cuando el usuario pida implementar un requerimiento completo o todo de una vez, en modo rápido o compacto, o cuando /vertical-dev:prototype lo proponga para un requerimiento pequeño. Para requerimientos grandes o delicados se usan las tres fases por separado.
+description: Implementa de una sola pasada la base de datos, el backend y el frontend de un requerimiento pequeño (RF-NNN) con prototipo aprobado, con una única revisión del plan (modelo de datos, contrato de API y pantallas juntos) antes de programar. Produce los mismos artefactos que /vd:db, /vd:backend y /vd:frontend en versión breve, la migración y código con pruebas en verde. Úsalo cuando el usuario pida implementar un requerimiento completo o todo de una vez, en modo rápido o compacto, o cuando /vd:prototype lo proponga para un requerimiento pequeño. Para requerimientos grandes o delicados se usan las tres fases por separado.
 ---
 
 # build
 
 Atajo de las fases 2, 3 y 4 del flujo de desarrollo vertical. En un requerimiento
-pequeño, recorrer `/vertical-dev:db` → `/vertical-dev:backend` → `/vertical-dev:frontend`
+pequeño, recorrer `/vd:db` → `/vd:backend` → `/vd:frontend`
 con dos revisiones y tres invocaciones pesa más que el propio cambio. Este skill hace las
 tres capas en una sola pasada con **una única revisión**: el plan completo (modelo,
 contrato y pantallas) se aprueba de una vez y después se implementa sin paradas.
@@ -15,8 +15,8 @@ Lo que se ahorra son invocaciones y puertas, no rigor: las reglas de diseño, se
 pruebas primero y verificación de los skills separados se aplican igual.
 
 Los artefactos (`db.md`, `api.md`, `frontend.md`) y las fases de `.vd/state.yaml` son los
-mismos que en el flujo separado, así que `/vertical-dev:qa`, `/vertical-dev:ship`,
-`/vertical-dev:next` y los skills separados funcionan igual después.
+mismos que en el flujo separado, así que `/vd:qa`, `/vd:ship`,
+`/vd:next` y los skills separados funcionan igual después.
 
 ## Cuándo usarlo
 
@@ -34,7 +34,7 @@ El requerimiento es pequeño si cumple **todo**:
   que copiar. El primer requerimiento de un proyecto, que fija estructura y patrones, va
   por los skills separados.
 
-Si no lo cumple, dilo, indica qué criterio falla y propone `/vertical-dev:db RF-NNN`. Si
+Si no lo cumple, dilo, indica qué criterio falla y propone `/vd:db RF-NNN`. Si
 el usuario prefiere seguir en modo compacto, respétalo y anótalo en las decisiones de
 `api.md`.
 
@@ -89,7 +89,7 @@ esquema".
 2. Si ya tiene `modo: compacto` en `.vd/state.yaml`, estás **retomando**: continúa
    según la fase (`implementacion_en_revision` → paso 3, `bd_modelada` → paso 5,
    `backend_listo` → paso 6).
-3. Si `ux.md` no tiene `prototipo: aprobado`, detente y sugiere `/vertical-dev:prototype`.
+3. Si `ux.md` no tiene `prototipo: aprobado`, detente y sugiere `/vd:prototype`.
 4. Lee el requerimiento, `ux.md`, el prototipo (`index.html`, `app.js`, `data.js`), el
    esquema actual y el `api.md` de los requerimientos de los que depende.
 5. Estudia el backend y el frontend existentes y elige en cada uno la funcionalidad
@@ -134,7 +134,7 @@ Es la **única puerta** antes de programar. Presenta en un solo mensaje breve:
 Pide aprobación del **plan completo**. Con cada ronda de feedback actualiza los
 documentos afectados y su historial e incrementa `iteracion`. Si el feedback implica un
 dato o un comportamiento que la UI no tiene, no lo añadas aquí: es un cambio de UX
-(`/vertical-dev:wireframe`) o de requerimiento (`/vertical-dev:requirements`).
+(`/vd:wireframe`) o de requerimiento (`/vd:requirements`).
 
 Al aprobar, marca `estado: aprobado` en `db.md` y en `api.md` y guarda en
 `.vd/project.yaml` los valores del perfil confirmados.
@@ -142,7 +142,7 @@ Al aprobar, marca `estado: aprobado` en `db.md` y en `api.md` y guarda en
 ### 4. Base de datos
 
 Si cambia el esquema, genera y verifica la migración como en el paso 6 de
-`/vertical-dev:db` (solo contra bases locales o de desarrollo), anótala en `db.md` e
+`/vd:db` (solo contra bases locales o de desarrollo), anótala en `db.md` e
 integra la porción en `.vd/db/modelo.puml`. Si no cambia, anótalo en `db.md`.
 
 Actualiza `.vd/state.yaml` con `fase: bd_modelada` e `iteracion: 0`.
@@ -150,7 +150,7 @@ Actualiza `.vd/state.yaml` con `fase: bd_modelada` e `iteracion: 0`.
 ### 5. Backend
 
 Pruebas primero, implementación y verificación como en los pasos 5 a 7 de
-`/vertical-dev:backend`. La prueba del recorrido contra la API local puede hacerse en el
+`/vd:backend`. La prueba del recorrido contra la API local puede hacerse en el
 paso 6, junto con la del frontend, para levantar el entorno una sola vez.
 
 Marca `estado: implementado` en `api.md` con los archivos tocados y el resultado, y
@@ -159,7 +159,7 @@ actualiza `.vd/state.yaml` con `fase: backend_listo`.
 ### 6. Frontend
 
 Kit visual, pruebas primero, implementación y verificación en la app como en los pasos 3
-y 5 a 7 de `/vertical-dev:frontend`, incluida la comparación con el prototipo. Al
+y 5 a 7 de `/vd:frontend`, incluida la comparación con el prototipo. Al
 terminar, detén los servidores y comprueba que los puertos quedaron libres.
 
 Marca `estado: implementado` en `frontend.md` con los archivos tocados y el resultado
@@ -172,13 +172,13 @@ No des el skill por terminado con pruebas en rojo o con el recorrido principal r
 
 1. Resume al usuario: migración, operaciones, pantallas, pruebas añadidas, dependencias
    nuevas y cómo levantar la app para verlo.
-2. Indica el siguiente paso: `/vertical-dev:qa RF-NNN`, o `/vertical-dev:qa-auto RF-NNN`
+2. Indica el siguiente paso: `/vd:qa RF-NNN`, o `/vd:qa-auto RF-NNN`
    si el usuario prefiere que Claude ejecute las pruebas.
 
 ## Cambios posteriores
 
-Los fallos que encuentre `/vertical-dev:qa` se corrigen con el skill separado de la capa
-que los originó (`/vertical-dev:db`, `/vertical-dev:backend` o `/vertical-dev:frontend`),
+Los fallos que encuentre `/vd:qa` se corrigen con el skill separado de la capa
+que los originó (`/vd:db`, `/vd:backend` o `/vd:frontend`),
 como en el flujo normal.
 
 ## Reglas
@@ -189,6 +189,6 @@ como en el flujo normal.
 - Nunca ejecutes migraciones, borrados ni cambios de datos contra bases que no sean
   locales o de desarrollo.
 - No cambies el diseño aprobado: un cambio visual o de comportamiento vuelve a
-  `/vertical-dev:prototype` (o a `/vertical-dev:wireframe` si es estructural).
+  `/vd:prototype` (o a `/vd:wireframe` si es estructural).
 - El modo compacto no se salta las pruebas, la verificación ni la revisión del plan.
-- No hagas commits: eso es `/vertical-dev:ship`.
+- No hagas commits: eso es `/vd:ship`.

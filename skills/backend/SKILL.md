@@ -1,6 +1,6 @@
 ---
 name: backend
-description: Define el contrato de API e implementa el backend de un requerimiento (RF-NNN) cuyo modelo de datos ya está aprobado y migrado, siguiendo la arquitectura y el stack del proyecto, con pruebas automáticas que cubren los criterios de aceptación. Produce api.md y código con pruebas en verde. Úsalo cuando el usuario pida el backend, la API, los endpoints, servicios o la lógica de servidor de un requerimiento, o cuando /vertical-dev:db indique /vertical-dev:backend como siguiente paso.
+description: Define el contrato de API e implementa el backend de un requerimiento (RF-NNN) cuyo modelo de datos ya está aprobado y migrado, siguiendo la arquitectura y el stack del proyecto, con pruebas automáticas que cubren los criterios de aceptación. Produce api.md y código con pruebas en verde. Úsalo cuando el usuario pida el backend, la API, los endpoints, servicios o la lógica de servidor de un requerimiento, o cuando /vd:db indique /vd:backend como siguiente paso.
 ---
 
 # backend
@@ -8,7 +8,7 @@ description: Define el contrato de API e implementa el backend de un requerimien
 Fase 3 del flujo de desarrollo vertical. A partir de lo que la UI hace (`ux.md`) y del
 modelo aprobado (`db.md`), define el **contrato** que consumirá el frontend y lo
 implementa en el backend del proyecto, con pruebas. Termina con todas las pruebas en
-verde y el contrato documentado en `api.md`, la entrada de `/vertical-dev:frontend`.
+verde y el contrato documentado en `api.md`, la entrada de `/vd:frontend`.
 
 ## Entradas y salidas
 
@@ -31,7 +31,7 @@ Salidas:
 
 1. Identifica el requerimiento (`RF-NNN` indicado o el que tenga `fase: bd_modelada` en
    `.vd/state.yaml`).
-2. Si `db.md` no está `aprobado`, detente y sugiere `/vertical-dev:db`.
+2. Si `db.md` no está `aprobado`, detente y sugiere `/vd:db`.
 3. Lee el requerimiento, `ux.md` (tablas de elementos, estados y acciones) y `db.md`.
 4. Lee `api.md` de los requerimientos de los que depende, para reutilizar operaciones,
    formatos y códigos de error.
@@ -92,8 +92,8 @@ Completa la **trazabilidad**: cada criterio de aceptación apunta a la operació
 pruebas que lo verifican.
 
 Si el contrato necesita datos que el modelo no tiene, **no cambies el esquema aquí**:
-vuelve a `/vertical-dev:db`. Si necesita algo que la UI no contempla, vuelve a `/vertical-dev:wireframe` o
-`/vertical-dev:requirements`.
+vuelve a `/vd:db`. Si necesita algo que la UI no contempla, vuelve a `/vd:wireframe` o
+`/vd:requirements`.
 
 ### 4. Revisar el contrato
 
@@ -155,11 +155,11 @@ Si algo falla, corrígelo y repite. No des la fase por terminada con pruebas en 
    verificación.
 2. Actualiza `.vd/state.yaml` con `fase: backend_listo`.
 3. Resume al usuario qué se implementó, pruebas añadidas y dependencias nuevas.
-4. Indica el siguiente paso: `/vertical-dev:frontend RF-NNN`.
+4. Indica el siguiente paso: `/vd:frontend RF-NNN`.
 
 ## Cambios posteriores
 
-Si `/vertical-dev:frontend` o `/vertical-dev:qa` piden cambios en el contrato o detectan fallos de backend,
+Si `/vd:frontend` o `/vd:qa` piden cambios en el contrato o detectan fallos de backend,
 vuelve a este skill: actualiza `api.md` (historial incluido), añade primero la prueba
 que reproduce el fallo y después corrígelo.
 
@@ -176,5 +176,5 @@ ocupado, identifica el proceso que lo usa, confirma que es el que levantaste y d
   del proyecto.
 - El contrato se deriva de la UI y del modelo aprobados; no añadas operaciones ni
   campos "por si acaso".
-- No modifiques el esquema de base de datos fuera de `/vertical-dev:db`.
-- No hagas commits: eso es `/vertical-dev:ship`.
+- No modifiques el esquema de base de datos fuera de `/vd:db`.
+- No hagas commits: eso es `/vd:ship`.

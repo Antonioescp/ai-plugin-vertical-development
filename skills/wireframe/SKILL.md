@@ -1,6 +1,6 @@
 ---
 name: wireframe
-description: Diseña e itera wireframes HTML de baja fidelidad para un requerimiento aprobado (RF-NNN) de docs/requirements/, junto con el documento de UX (flujo de pantallas, estados, validaciones y datos). El usuario los revisa en el navegador y deja comentarios sobre componentes concretos. Úsalo cuando el usuario pida wireframes, bocetos, la estructura de pantallas o el diseño UI/UX de un requerimiento, cuando pida revisar o atender comentarios de un wireframe, o cuando /vertical-dev:requirements indique /vertical-dev:wireframe como siguiente paso.
+description: Diseña e itera wireframes HTML de baja fidelidad para un requerimiento aprobado (RF-NNN) de docs/requirements/, junto con el documento de UX (flujo de pantallas, estados, validaciones y datos). El usuario los revisa en el navegador y deja comentarios sobre componentes concretos. Úsalo cuando el usuario pida wireframes, bocetos, la estructura de pantallas o el diseño UI/UX de un requerimiento, cuando pida revisar o atender comentarios de un wireframe, o cuando /vd:requirements indique /vd:wireframe como siguiente paso.
 ---
 
 # wireframe
@@ -8,7 +8,7 @@ description: Diseña e itera wireframes HTML de baja fidelidad para un requerimi
 Fase 1a del flujo de desarrollo vertical. A partir de un requerimiento aprobado define
 **qué pantallas hay, qué contienen, cómo se navega entre ellas y en qué estados pueden
 estar**, en baja fidelidad para que cambiar sea barato. El estilo visual se decide
-después en `/vertical-dev:prototype`, sobre el mismo HTML.
+después en `/vd:prototype`, sobre el mismo HTML.
 
 ## Entradas y salidas
 
@@ -32,7 +32,7 @@ Salidas:
 
 - HTML plano con [templates/design/wireframe.css](templates/design/wireframe.css): gris,
   sin colores ni imágenes reales. Usa **las mismas clases** que el kit del prototipo
-  (`card`, `field`, `btn`, `alert`…), así `/vertical-dev:prototype` parte de este mismo HTML.
+  (`card`, `field`, `btn`, `alert`…), así `/vd:prototype` parte de este mismo HTML.
 - Cada pantalla es un `<section data-screen="P1" data-title="…" data-states="…">`; los
   elementos de un estado concreto llevan `data-show-in="…"`; la URL `#P1/estado` muestra
   esa pantalla en ese estado.
@@ -53,7 +53,7 @@ Salidas:
 
 1. Identifica el requerimiento: el `RF-NNN` que indique el usuario o, si no indica
    ninguno, el primer requerimiento `aprobado` del índice `docs/requirements/README.md`.
-2. Si el requerimiento está en `borrador`, detente y sugiere `/vertical-dev:requirements`.
+2. Si el requerimiento está en `borrador`, detente y sugiere `/vd:requirements`.
 3. Lee el requerimiento completo y los requerimientos de los que depende
    (`depende_de`), con sus `ux.md` si existen, para reutilizar pantallas y patrones.
 4. Lee `.vd/project.yaml`. Si no define `ux.platforms`, pregunta una sola vez para qué
@@ -132,7 +132,7 @@ Cuando el usuario diga que dejó comentarios (o al iterar):
    - **De wireframe** (estructura, contenido, textos, navegación, estados): aplícalo en
      `wireframe/index.html`, `ux.md` y `flujo.puml` si cambia la navegación.
    - **De requerimiento** (cambia qué hace la funcionalidad): no lo apliques; indícalo y
-     sugiere `/vertical-dev:requirements`.
+     sugiere `/vd:requirements`.
    - **Ambiguo**: no lo apliques; pregunta.
 3. Responde **en el propio archivo**: para cada comentario aplicado pon
    `"estado": "resuelto"` y una `"respuesta"` breve con lo que cambiaste; para los no
@@ -150,7 +150,7 @@ Solo cuando el usuario apruebe explícitamente la estructura:
 2. Actualiza `.vd/state.yaml` con `fase: wireframes_aprobados`.
 3. Si el requerimiento estaba `aprobado`, cámbialo a `en_desarrollo` en su archivo y en
    el índice `docs/requirements/README.md`.
-4. Indica el siguiente paso: `/vertical-dev:prototype RF-NNN`.
+4. Indica el siguiente paso: `/vd:prototype RF-NNN`.
 
 ## Estado en `.vd/state.yaml`
 
@@ -160,7 +160,7 @@ RF-001:
   iteracion: 2
 ```
 
-Si `/vertical-dev:prototype` detecta un cambio estructural y vuelve aquí, `ux.md` regresa a
+Si `/vd:prototype` detecta un cambio estructural y vuelve aquí, `ux.md` regresa a
 `estado: en_revision` y la fase a `wireframes_en_revision`.
 
 ## Reglas

@@ -1,6 +1,6 @@
 ---
 name: qa
-description: Prepara y conduce las pruebas manuales de un requerimiento (RF-NNN) ya implementado en backend y frontend. Genera el plan de pruebas desde los criterios de aceptación y los estados de ux.md, prepara el entorno local, ofrece una página donde el usuario marca cada caso como pasa, falla o bloqueado con sus notas, analiza los fallos y los devuelve a la fase que los originó. Úsalo cuando el usuario pida probar, hacer QA, pruebas manuales o de aceptación de un requerimiento, cuando diga que terminó de probar, o cuando /vertical-dev:frontend indique /vertical-dev:qa como siguiente paso.
+description: Prepara y conduce las pruebas manuales de un requerimiento (RF-NNN) ya implementado en backend y frontend. Genera el plan de pruebas desde los criterios de aceptación y los estados de ux.md, prepara el entorno local, ofrece una página donde el usuario marca cada caso como pasa, falla o bloqueado con sus notas, analiza los fallos y los devuelve a la fase que los originó. Úsalo cuando el usuario pida probar, hacer QA, pruebas manuales o de aceptación de un requerimiento, cuando diga que terminó de probar, o cuando /vd:frontend indique /vd:qa como siguiente paso.
 ---
 
 # qa
@@ -26,7 +26,7 @@ Salidas:
 .vd/RF-NNN/
   qa.md                     # cobertura, rondas e incidencias (plantilla: templates/qa.md)
   qa/plan.json              # casos de prueba (plantilla: templates/plan.json)
-  qa/results.json           # resultados por ronda (del usuario o de /vertical-dev:qa-run)
+  qa/results.json           # resultados por ronda (del usuario o de /vd:qa-run)
 ```
 
 La página de pruebas necesita el servidor de revisión `.vd/design/review-server.mjs`
@@ -39,7 +39,7 @@ con el endpoint `/__qa`. Si el del proyecto no lo tiene (es anterior), actualíz
 
 1. Identifica el requerimiento (`RF-NNN` indicado o el que tenga
    `fase: frontend_listo` o `en_pruebas` en `.vd/state.yaml`).
-2. Si `frontend.md` no está `implementado`, detente y sugiere `/vertical-dev:frontend`.
+2. Si `frontend.md` no está `implementado`, detente y sugiere `/vd:frontend`.
 3. Si `.vd/RF-NNN/qa/results.json` ya existe, estás en una **ronda en curso o
    posterior**: si el usuario dice que terminó de probar, ve al paso 6; si vuelves de
    corregir fallos, ve al paso 8.
@@ -105,15 +105,15 @@ responda en el chat con el resultado de cada uno.
    - cómo marcar: **Pasa**, **Falla** o **Bloqueado** (no pudo ejecutarlo), con una nota
      obligatoria en los dos últimos;
    - que te avise cuando termine.
-3. Ofrece también que Claude ejecute los casos con `/vertical-dev:qa-run RF-NNN` (o, en
-   adelante, que haga todo el QA con `/vertical-dev:qa-auto RF-NNN`): los
+3. Ofrece también que Claude ejecute los casos con `/vd:qa-run RF-NNN` (o, en
+   adelante, que haga todo el QA con `/vd:qa-auto RF-NNN`): los
    recorre en la app, marca sus resultados como del agente con evidencia y deja
    pendientes para el usuario los que necesitan criterio humano.
 
 ### 5. Esperar
 
 No marques resultados desde este skill. Los marca el usuario en `design/qa.html` o, si
-lo pide, `/vertical-dev:qa-run` con `"ejecutor": "agente"`.
+lo pide, `/vd:qa-run` con `"ejecutor": "agente"`.
 
 ### 6. Analizar los resultados
 
@@ -127,12 +127,12 @@ evidencia en `qa/evidencia/`: úsala al reproducir. Para cada caso en `falla` o
 
    | Origen | Ejemplo | Vuelve a | Fase en `state.yaml` |
    |---|---|---|---|
-   | requerimiento | el comportamiento esperado estaba mal definido | `/vertical-dev:requirements` | `pendiente` |
-   | UI/UX estructura | falta una pantalla, campo o estado | `/vertical-dev:wireframe` | `wireframes_en_revision` |
-   | UI/UX visual | el diseño aprobado no se entiende o no gusta | `/vertical-dev:prototype` | `prototipo_en_revision` |
-   | base de datos | falta una restricción o un dato | `/vertical-dev:db` | `prototipo_aprobado` |
-   | backend | validación, error o regla mal implementada | `/vertical-dev:backend` | `bd_modelada` |
-   | frontend | la app no hace lo que dice el prototipo o `api.md` | `/vertical-dev:frontend` | `backend_listo` |
+   | requerimiento | el comportamiento esperado estaba mal definido | `/vd:requirements` | `pendiente` |
+   | UI/UX estructura | falta una pantalla, campo o estado | `/vd:wireframe` | `wireframes_en_revision` |
+   | UI/UX visual | el diseño aprobado no se entiende o no gusta | `/vd:prototype` | `prototipo_en_revision` |
+   | base de datos | falta una restricción o un dato | `/vd:db` | `prototipo_aprobado` |
+   | backend | validación, error o regla mal implementada | `/vd:backend` | `bd_modelada` |
+   | frontend | la app no hace lo que dice el prototipo o `api.md` | `/vd:frontend` | `backend_listo` |
    | entorno | datos de prueba o configuración local incorrectos | se corrige aquí | `en_pruebas` |
 
    Distingue "la implementación no cumple el diseño" (backend o frontend) de "el diseño
@@ -155,8 +155,8 @@ Si hay incidencias que no son de entorno:
    correcciones se hacen con los skills separados de cada capa.
 2. Pon `estado: con_fallos` en `qa.md`.
 3. Explica al usuario las incidencias, su causa y el siguiente paso (p. ej.
-   `/vertical-dev:backend RF-NNN`), recordando que cada skill corrige con una prueba que reproduce
-   el fallo. Al terminar las correcciones se vuelve a `/vertical-dev:qa`.
+   `/vd:backend RF-NNN`), recordando que cada skill corrige con una prueba que reproduce
+   el fallo. Al terminar las correcciones se vuelve a `/vd:qa`.
 
 ### 8. Nueva ronda
 
@@ -187,15 +187,15 @@ Cuando todos los casos de la última ronda están en `pasa` y no hay incidencias
 2. Pon `estado: aceptado` en `qa.md` y completa "Resultado final" (indica qué casos
    ejecutó el agente y que el usuario confirmó la aceptación).
 3. Actualiza `.vd/state.yaml` con `fase: aceptada`. El requerimiento sigue
-   `en_pruebas` hasta que `/vertical-dev:ship` lo entregue.
+   `en_pruebas` hasta que `/vd:ship` lo entregue.
 4. Detén los procesos que levantaste (servidores de app y de revisión).
-5. Indica el siguiente paso: `/vertical-dev:ship RF-NNN`.
+5. Indica el siguiente paso: `/vd:ship RF-NNN`.
 
 ## Reglas
 
 - Escribe en el idioma del usuario.
 - Nunca marques casos como pasados en nombre del usuario ni des por aceptado algo sin
-  resultados suyos o, si los ejecutó `/vertical-dev:qa-run`, sin su confirmación
+  resultados suyos o, si los ejecutó `/vd:qa-run`, sin su confirmación
   explícita.
 - Nunca prepares datos ni levantes servicios contra entornos que no sean locales.
 - No corrijas código de producto desde aquí: identifica el origen y devuelve el trabajo

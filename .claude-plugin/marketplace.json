@@ -6,7 +6,7 @@
   },
   "plugins": [
     {
-      "name": "vertical-dev",
+      "name": "vd",
       "source": "./",
       "description": "Desarrollo vertical con skills: de los requerimientos a la entrega, un requerimiento a la vez."
     }

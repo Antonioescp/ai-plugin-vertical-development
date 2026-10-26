@@ -164,7 +164,7 @@
       const label = document.getElementById('guardado');
       label.textContent = 'Guardando…';
       try {
-        // /vertical-dev:qa-run puede haber escrito resultados mientras la página estaba
+        // /vd:qa-run puede haber escrito resultados mientras la página estaba
         // abierta: se parte del archivo actual y solo se aplican los casos tocados aquí.
         const actual = await (await fetch(`/__qa?rf=${encodeURIComponent(rf)}`, { cache: 'no-store' })).json();
         const destino = actual.rondas?.find((r) => r.numero === round.numero);

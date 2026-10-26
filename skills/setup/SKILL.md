@@ -79,7 +79,7 @@ Si el repositorio no tiene código, o falta una capa (p. ej. hay frontend pero n
 backend), pregunta en **una sola ronda** qué stack quiere el usuario para cada capa que
 falta, proponiendo una opción por defecto coherente con lo que ya exista. No generes el
 esqueleto del proyecto aquí: anota la elección en el perfil (`framework`) y deja los
-comandos en `null`; `/vertical-dev:backend` y `/vertical-dev:frontend` crearán la estructura mínima cuando
+comandos en `null`; `/vd:backend` y `/vd:frontend` crearán la estructura mínima cuando
 lleguen, siguiendo esa elección.
 
 ### 4. Escribir el perfil
@@ -98,8 +98,8 @@ corrija lo que esté mal. Si el usuario quiere, ejecuta los comandos de `test` y
 de cada capa para comprobar que funcionan (son de solo lectura en casi todos los
 proyectos; si alguno no lo es, pregunta antes).
 
-Termina indicando el siguiente paso: `/vertical-dev:requirements` para crear los requerimientos, o
-`/vertical-dev:next` si ya existen.
+Termina indicando el siguiente paso: `/vd:requirements` para crear los requerimientos, o
+`/vd:next` si ya existen.
 
 ## Reglas
 

@@ -12,7 +12,7 @@ de requerimientos;
 
 |Skills|
 if (¿Existe .vd/project.yaml?) then (no)
-  :**/vertical-dev:setup**
+  :**/vd:setup**
   Detecta el stack del repo y propone el perfil;
   note right
     Escribe: .vd/project.yaml
@@ -27,7 +27,7 @@ else (sí)
 endif
 
 repeat
-  :**/vertical-dev:requirements**
+  :**/vd:requirements**
   Convierte la descripción en requerimientos
   verticales priorizados;
   note right
@@ -50,7 +50,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
 
   partition "1. Diseño de producto (UI/UX)" {
     repeat
-      :**/vertical-dev:wireframe**
+      :**/vd:wireframe**
       Flujos de usuario y estructura de pantallas;
       note right
         Escribe: .vd/RF-NNN/ux.md, flujo.puml
@@ -73,7 +73,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
     repeat while (¿Estructura aprobada?) is (no, iterar) not (sí)
 
     repeat
-      :**/vertical-dev:prototype**
+      :**/vd:prototype**
       Prototipo HTML navegable sobre el mismo HTML del wireframe;
       note right
         Escribe: .vd/RF-NNN/prototype/ (index.html, app.js, data.js)
@@ -92,22 +92,22 @@ repeat :Toma la siguiente funcionalidad pendiente;
 
   if (¿Requerimiento pequeño?) then (sí)
     partition "2-4. Modo compacto" {
-      :**/vertical-dev:build**
+      :**/vd:build**
       Modelo, contrato y plan de pantallas juntos;
       note right
         Escribe: db.md, api.md, frontend.md (versión breve)
-        con las reglas de /vertical-dev:db, backend y frontend.
+        con las reglas de /vd:db, backend y frontend.
       end note
       |Usuario|
       :Aprueba el plan completo (una sola revisión);
       |Skills|
-      :**/vertical-dev:build** migración, backend y frontend
+      :**/vd:build** migración, backend y frontend
       sin paradas: pruebas primero, suite + lint + build
       en verde y recorrido en la app local;
     }
   else (no)
     partition "2. Base de datos" {
-      :**/vertical-dev:db**
+      :**/vd:db**
       Modela SOLO la porción que necesita
       esta funcionalidad;
       note right
@@ -119,7 +119,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
       |Usuario|
       :Revisa y aprueba el modelo;
       |Skills|
-      :**/vertical-dev:db** genera la migración reversible
+      :**/vd:db** genera la migración reversible
       y la verifica en la base local;
       note right
         Con la herramienta de migraciones del proyecto.
@@ -128,7 +128,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
     }
 
     partition "3. Backend" {
-      :**/vertical-dev:backend**
+      :**/vd:backend**
       Contrato de API derivado de ux.md + db.md,
       siguiendo los patrones del backend existente;
       note right
@@ -139,7 +139,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
       |Usuario|
       :Aprueba el contrato;
       |Skills|
-      :**/vertical-dev:backend**
+      :**/vd:backend**
       Pruebas primero (rojo), implementación (verde);
       note right
         Código en las rutas de backend del perfil.
@@ -149,7 +149,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
     }
 
     partition "4. Frontend" {
-      :**/vertical-dev:frontend**
+      :**/vd:frontend**
       Implementa las pantallas del prototipo aprobado
       con los componentes del proyecto,
       consumiendo el contrato de api.md;
@@ -166,7 +166,7 @@ repeat :Toma la siguiente funcionalidad pendiente;
   endif
 
   partition "5. Pruebas manuales" {
-    :**/vertical-dev:qa**
+    :**/vd:qa**
     Genera el plan de pruebas manuales
     y prepara el entorno local;
     note right
@@ -178,18 +178,18 @@ repeat :Toma la siguiente funcionalidad pendiente;
     |Usuario|
     :Ejecuta los casos en la app y los marca
     en design/qa.html (pasa / falla / bloqueado),
-    o pide a **/vertical-dev:qa-run** que los ejecute;
+    o pide a **/vd:qa-run** que los ejecute;
     note right
       Resultados en .vd/RF-NNN/qa/results.json.
       qa-run los marca como del agente, con capturas
       en qa/evidencia/, y deja pendientes los que
       necesitan criterio humano. Aceptar con resultados
       del agente requiere confirmación del usuario.
-      **/vertical-dev:qa-auto** hace plan, entorno,
+      **/vd:qa-auto** hace plan, entorno,
       ejecución y análisis en una sola pasada.
     end note
     |Skills|
-    :**/vertical-dev:qa** reproduce cada fallo,
+    :**/vd:qa** reproduce cada fallo,
     busca la causa raíz y clasifica su origen;
     note right
       Un fallo vuelve a la fase que lo originó:
@@ -200,16 +200,16 @@ repeat :Toma la siguiente funcionalidad pendiente;
   }
 
   if (¿Todas las pruebas pasan?) then (sí)
-    :**/vertical-dev:ship**
+    :**/vd:ship**
     Verificación final, rama y commits por capa
     (diseño, BD, backend, frontend);
     |Usuario|
     :Confirma push y PR/MR;
     |Skills|
-    :**/vertical-dev:ship** sube la rama, abre el PR/MR
+    :**/vd:ship** sube la rama, abre el PR/MR
     y marca el requerimiento como entregado;
   else (no)
-    :Vuelve a la fase indicada por **/vertical-dev:qa**;
+    :Vuelve a la fase indicada por **/vd:qa**;
     note right: Ver estados-funcionalidad.puml
   endif
 
@@ -220,7 +220,7 @@ repeat while (¿Quedan funcionalidades en el backlog?) is (sí) not (no)
 stop
 
 legend right
-  **/vertical-dev:next** puede invocarse en cualquier momento:
+  **/vd:next** puede invocarse en cualquier momento:
   lee .vd/state.yaml y dice qué skill toca.
   El estado vive en archivos, no en agentes:
   cada skill lee lo que dejó la fase anterior.

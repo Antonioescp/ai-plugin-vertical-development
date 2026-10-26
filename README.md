@@ -34,14 +34,14 @@ propio marketplace (`.claude-plugin/marketplace.json`).
 Desde GitHub, cuando el repositorio esté publicado:
 
 ```
-/plugin install vertical-dev --marketplace <owner>/<repo>
+/plugin install vd --marketplace <owner>/<repo>
 ```
 
 Desde una copia local:
 
 ```
 /plugin marketplace add C:\ruta\a\vertical-dev
-/plugin install vertical-dev@vertical-dev
+/plugin install vd@vertical-dev
 ```
 
 Para probar cambios sin instalar nada, arranca Claude Code con el plugin cargado desde
@@ -52,7 +52,7 @@ claude --plugin-dir /ruta/a/vertical-dev
 ```
 
 Como plugin, los skills se invocan con el nombre del plugin delante:
-`/vertical-dev:setup`, `/vertical-dev:requirements`, `/vertical-dev:next`… Claude también
+`/vd:setup`, `/vd:requirements`, `/vd:next`… Claude también
 los usa solo cuando la petición encaja con su descripción.
 
 También funcionan sin plugin copiando **todas** las carpetas de `skills/` juntas (se

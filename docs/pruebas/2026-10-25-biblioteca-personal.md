@@ -1,7 +1,7 @@
 # Prueba del flujo completo — Biblioteca personal (2026-10-25)
 
 > Nota: después de esta prueba los skills perdieron el prefijo `vd-` al empaquetarse como
-> plugin (`/vd-setup` → `/vertical-dev:setup`, etc.). El informe conserva los nombres de
+> plugin (`/vd-setup` → `/vd:setup`, etc.). El informe conserva los nombres de
 > entonces.
 Proyecto de ejemplo: `C:\Users\packa\repos\vd-ejemplo` (Node 24 sin dependencias: `node:http`, `node:sqlite`, `node:test`).
 Recorrido: `/vd-setup` → `/vd-requirements` (RF-001…RF-005) → RF-001 por todas las fases → `/vd-next`.

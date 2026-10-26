@@ -1,6 +1,6 @@
 ---
 name: requirements
-description: Crea, refina o divide requerimientos funcionales verticales en docs/requirements/ del proyecto. Úsalo cuando el usuario describa funcionalidades, un producto o un cambio que deba convertirse en requerimientos, cuando pida agregar, editar, priorizar o partir un requerimiento, o al iniciar el flujo de desarrollo vertical (vd) antes de /vertical-dev:wireframe.
+description: Crea, refina o divide requerimientos funcionales verticales en docs/requirements/ del proyecto. Úsalo cuando el usuario describa funcionalidades, un producto o un cambio que deba convertirse en requerimientos, cuando pida agregar, editar, priorizar o partir un requerimiento, o al iniciar el flujo de desarrollo vertical (vd) antes de /vd:wireframe.
 ---
 
 # requirements
@@ -75,7 +75,7 @@ Para cada funcionalidad crea `docs/requirements/RF-NNN-<slug>.md` desde la plant
 - **Historia de usuario**: "Como <actor>, quiero <acción>, para <beneficio>".
 - **Criterios de aceptación** en Given/When/Then (Dado/Cuando/Entonces), incluyendo el
   caso feliz, validaciones y errores. Cada criterio debe poder probarse manualmente;
-  `/vertical-dev:qa` los convertirá en el plan de pruebas.
+  `/vd:qa` los convertirá en el plan de pruebas.
 - **Datos involucrados**: qué información captura o muestra el usuario, en lenguaje de
   negocio (p. ej. "correo electrónico, único"). No tablas, tipos ni columnas.
 - **Fuera de alcance**: lo que explícitamente no incluye, sobre todo lo que se movió a
@@ -97,7 +97,7 @@ Muestra al usuario un resumen: IDs creados o cambiados, orden del backlog y preg
 abiertas. Cuando el usuario apruebe un requerimiento, cambia su estado a `aprobado` en el
 archivo y en el índice.
 
-Termina indicando el siguiente paso: `/vertical-dev:wireframe RF-NNN` con el primer requerimiento
+Termina indicando el siguiente paso: `/vd:wireframe RF-NNN` con el primer requerimiento
 aprobado del backlog que siga pendiente.
 
 ## Estados

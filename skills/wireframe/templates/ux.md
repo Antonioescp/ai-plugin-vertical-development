@@ -1,7 +1,7 @@
 ---
 requerimiento: RF-NNN
 estado: en_revision      # wireframes: en_revision | aprobado
-prototipo: pendiente     # pendiente | en_revision | aprobado (lo gestiona /vertical-dev:prototype)
+prototipo: pendiente     # pendiente | en_revision | aprobado (lo gestiona /vd:prototype)
 plataformas: [web]
 ---
 

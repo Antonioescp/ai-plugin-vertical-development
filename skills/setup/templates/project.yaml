@@ -1,5 +1,5 @@
 # Perfil del proyecto para el flujo de desarrollo vertical (vd).
-# Lo crea /vertical-dev:setup y lo completan las fases que necesitan más datos.
+# Lo crea /vd:setup y lo completan las fases que necesitan más datos.
 # Un valor null significa "aún no definido": la fase que lo necesite lo deducirá o preguntará.
 
 proyecto:
@@ -9,8 +9,8 @@ proyecto:
 frontend:
   paths: []                       # p. ej. ["web/src"]
   framework: null                 # p. ej. react, vue, angular, svelte, flutter, swiftui…
-  styling: null                   # lo completa /vertical-dev:frontend
-  test_id_attribute: null         # lo completa /vertical-dev:frontend
+  styling: null                   # lo completa /vd:frontend
+  test_id_attribute: null         # lo completa /vd:frontend
   commands:
     install: null
     test: null
@@ -21,7 +21,7 @@ frontend:
 backend:
   paths: []
   framework: null
-  api_style: null                 # lo completa /vertical-dev:backend
+  api_style: null                 # lo completa /vd:backend
   error_format: null
   architecture: null
   commands:
@@ -35,7 +35,7 @@ database:
   engine: null
   migrations_dir: null
   migration_tool: null            # p. ej. prisma, alembic, flyway, ef core, rails…
-  conventions: null               # lo completa /vertical-dev:db
+  conventions: null               # lo completa /vd:db
   local: null                     # cómo se levanta la base local, p. ej. "docker compose up db"
   commands:
     new_migration: null           # admite {name}
@@ -43,12 +43,12 @@ database:
     rollback: null
 
 ux:
-  platforms: null                 # lo pregunta /vertical-dev:wireframe
+  platforms: null                 # lo pregunta /vd:wireframe
 
 git:
   base_branch: null
   branch_pattern: "vd/{id}-{slug}"
-  commit_style: null              # lo deduce o pregunta /vertical-dev:ship
+  commit_style: null              # lo deduce o pregunta /vd:ship
   commits: null
   delivery: null
   version_vd: null

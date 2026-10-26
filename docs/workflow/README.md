@@ -25,22 +25,22 @@ punta** antes de empezar la siguiente:
 3. **Backend**: se implementa a partir del diseño UX y del modelo de datos.
 4. **Frontend**: se implementan las pantallas aprobadas consumiendo el backend.
 5. **Pruebas manuales**: el usuario prueba la funcionalidad completa, o pide a Claude
-   que ejecute los casos (`/vertical-dev:qa-run`) y confirma el resultado. Con
-   `/vertical-dev:qa-auto`, Claude hace todo el QA (plan, entorno, ejecución y análisis)
+   que ejecute los casos (`/vd:qa-run`) y confirma el resultado. Con
+   `/vd:qa-auto`, Claude hace todo el QA (plan, entorno, ejecución y análisis)
    y el usuario solo completa los casos que necesitan criterio humano y confirma.
 
 Al terminar, la funcionalidad está completa y usable aunque falten otras en el backlog.
 
 **Modo compacto.** Para requerimientos pequeños (sin cambios de esquema o con una sola
 entidad nueva, pocas operaciones que siguen un patrón existente, sin datos sensibles),
-`/vertical-dev:build` hace los pasos 2, 3 y 4 en una sola pasada: el modelo, el contrato
+`/vd:build` hace los pasos 2, 3 y 4 en una sola pasada: el modelo, el contrato
 y el plan de pantallas se aprueban juntos en una única revisión y después se implementa
 sin paradas. Produce los mismos artefactos y recorre las mismas fases, así que pruebas
 manuales, entrega y correcciones funcionan igual. Las reglas de cada capa siguen siendo
-las de `/vertical-dev:db`, `/vertical-dev:backend` y `/vertical-dev:frontend`.
+las de `/vd:db`, `/vd:backend` y `/vd:frontend`.
 
-`/vertical-dev:build-qa` va más allá: tras `build` hace las pruebas con
-`/vertical-dev:qa-auto` y corrige los fallos de implementación (prueba que lo reproduce
+`/vd:build-qa` va más allá: tras `build` hace las pruebas con
+`/vd:qa-auto` y corrige los fallos de implementación (prueba que lo reproduce
 primero, suites en verde, nueva ronda) hasta que todo pasa, con un máximo de tres rondas
 de corrección. Los fallos del diseño o de lo aprobado siguen necesitando al usuario, igual
 que la aprobación del plan, los casos de criterio humano y la aceptación.
@@ -58,34 +58,34 @@ que la aprobación del plan, los casos de criterio humano y la aceptación.
 5. **Los fallos regresan a su origen.** Un fallo en pruebas manuales se clasifica por fase
    y el trabajo se rehace desde esa fase hacia abajo.
 6. **Agnóstico al stack.** Todo lo específico del proyecto (rutas, comandos) vive en
-   `.vd/project.yaml`, que genera `/vertical-dev:setup`.
+   `.vd/project.yaml`, que genera `/vd:setup`.
 
 ## Skills
 
 | Skill | Fase | Entrada | Salida |
 |---|---|---|---|
-| [`/vertical-dev:setup`](../../skills/setup/SKILL.md) | preparación | repo del proyecto | `.vd/project.yaml`, `.vd/state.yaml` |
-| [`/vertical-dev:requirements`](../../skills/requirements/SKILL.md) | preparación | descripción del usuario | `docs/requirements/` |
-| [`/vertical-dev:wireframe`](../../skills/wireframe/SKILL.md) | 1a. UI/UX | `RF-NNN` aprobado | `ux.md`, `flujo.puml`, `wireframe/` |
-| [`/vertical-dev:prototype`](../../skills/prototype/SKILL.md) | 1b. UI/UX | `ux.md`, `wireframe/` | `prototype/` |
-| [`/vertical-dev:db`](../../skills/db/SKILL.md) | 2. Base de datos | `ux.md`, esquema actual | `db.md`, `db.puml`, migración |
-| [`/vertical-dev:backend`](../../skills/backend/SKILL.md) | 3. Backend | `ux.md`, `db.md`, backend existente | `api.md`, código, pruebas |
-| [`/vertical-dev:frontend`](../../skills/frontend/SKILL.md) | 4. Frontend | prototipo, `ux.md`, `api.md`, frontend existente | `frontend.md`, código, pruebas |
-| [`/vertical-dev:build`](../../skills/build/SKILL.md) | 2–4. Modo compacto | `ux.md`, prototipo, esquema, backend y frontend existentes | `db.md`, `api.md`, `frontend.md`, migración, código, pruebas |
-| [`/vertical-dev:qa`](../../skills/qa/SKILL.md) | 5. Pruebas manuales | criterios, `ux.md`, app en local | `qa.md`, `qa/plan.json`, `qa/results.json` |
-| [`/vertical-dev:qa-run`](../../skills/qa-run/SKILL.md) | 5. Pruebas manuales | `qa/plan.json`, app en local | resultados del agente en `qa/results.json`, `qa/evidencia/` |
-| [`/vertical-dev:qa-auto`](../../skills/qa-auto/SKILL.md) | 5. Pruebas (atajo) | criterios, `ux.md`, app en local | lo mismo que `qa` + `qa-run` |
-| [`/vertical-dev:build-qa`](../../skills/build-qa/SKILL.md) | 2–5. Piloto automático | lo mismo que `build` | lo mismo que `build` + `qa-auto`, con fallos corregidos |
-| [`/vertical-dev:ship`](../../skills/ship/SKILL.md) | entrega | `qa.md` aceptado | rama, commits, PR/MR |
-| [`/vertical-dev:next`](../../skills/next/SKILL.md) | cualquiera | `.vd/state.yaml`, backlog, artefactos | siguiente skill y pendientes del usuario |
+| [`/vd:setup`](../../skills/setup/SKILL.md) | preparación | repo del proyecto | `.vd/project.yaml`, `.vd/state.yaml` |
+| [`/vd:requirements`](../../skills/requirements/SKILL.md) | preparación | descripción del usuario | `docs/requirements/` |
+| [`/vd:wireframe`](../../skills/wireframe/SKILL.md) | 1a. UI/UX | `RF-NNN` aprobado | `ux.md`, `flujo.puml`, `wireframe/` |
+| [`/vd:prototype`](../../skills/prototype/SKILL.md) | 1b. UI/UX | `ux.md`, `wireframe/` | `prototype/` |
+| [`/vd:db`](../../skills/db/SKILL.md) | 2. Base de datos | `ux.md`, esquema actual | `db.md`, `db.puml`, migración |
+| [`/vd:backend`](../../skills/backend/SKILL.md) | 3. Backend | `ux.md`, `db.md`, backend existente | `api.md`, código, pruebas |
+| [`/vd:frontend`](../../skills/frontend/SKILL.md) | 4. Frontend | prototipo, `ux.md`, `api.md`, frontend existente | `frontend.md`, código, pruebas |
+| [`/vd:build`](../../skills/build/SKILL.md) | 2–4. Modo compacto | `ux.md`, prototipo, esquema, backend y frontend existentes | `db.md`, `api.md`, `frontend.md`, migración, código, pruebas |
+| [`/vd:qa`](../../skills/qa/SKILL.md) | 5. Pruebas manuales | criterios, `ux.md`, app en local | `qa.md`, `qa/plan.json`, `qa/results.json` |
+| [`/vd:qa-run`](../../skills/qa-run/SKILL.md) | 5. Pruebas manuales | `qa/plan.json`, app en local | resultados del agente en `qa/results.json`, `qa/evidencia/` |
+| [`/vd:qa-auto`](../../skills/qa-auto/SKILL.md) | 5. Pruebas (atajo) | criterios, `ux.md`, app en local | lo mismo que `qa` + `qa-run` |
+| [`/vd:build-qa`](../../skills/build-qa/SKILL.md) | 2–5. Piloto automático | lo mismo que `build` | lo mismo que `build` + `qa-auto`, con fallos corregidos |
+| [`/vd:ship`](../../skills/ship/SKILL.md) | entrega | `qa.md` aceptado | rama, commits, PR/MR |
+| [`/vd:next`](../../skills/next/SKILL.md) | cualquiera | `.vd/state.yaml`, backlog, artefactos | siguiente skill y pendientes del usuario |
 
 ## Perfil de proyecto (`.vd/project.yaml`)
 
-Lo crea `/vertical-dev:setup` detectando el stack del repositorio (manifiestos, scripts, CI,
+Lo crea `/vd:setup` detectando el stack del repositorio (manifiestos, scripts, CI,
 docker compose, herramienta de migraciones, git) y preguntando solo lo que no puede
 deducir. Los valores que una fase necesita y aún no existen (`null`) los completa esa
-fase: `/vertical-dev:wireframe` las plataformas, `/vertical-dev:db` las convenciones de base de datos,
-`/vertical-dev:backend` el estilo de API, `/vertical-dev:frontend` el sistema de estilos y `/vertical-dev:ship` la
+fase: `/vd:wireframe` las plataformas, `/vd:db` las convenciones de base de datos,
+`/vd:backend` el estilo de API, `/vd:frontend` el sistema de estilos y `/vd:ship` la
 configuración de git.
 
 Estructura completa: [skills/setup/templates/project.yaml](../../skills/setup/templates/project.yaml).

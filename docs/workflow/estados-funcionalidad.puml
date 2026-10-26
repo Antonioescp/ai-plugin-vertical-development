@@ -1,44 +1,44 @@
 @startuml estados-funcionalidad
 title Fases de un requerimiento (.vd/state.yaml)
 
-[*] --> pendiente : /vertical-dev:requirements (aprobado)
+[*] --> pendiente : /vd:requirements (aprobado)
 
 state "UI/UX" as ux {
   state wireframes_en_revision
   state wireframes_aprobados
   state prototipo_en_revision
-  [*] --> wireframes_en_revision : /vertical-dev:wireframe
+  [*] --> wireframes_en_revision : /vd:wireframe
   wireframes_en_revision --> wireframes_en_revision : comentarios / cambios
   wireframes_en_revision --> wireframes_aprobados : usuario aprueba
-  wireframes_aprobados --> prototipo_en_revision : /vertical-dev:prototype
+  wireframes_aprobados --> prototipo_en_revision : /vd:prototype
   prototipo_en_revision --> prototipo_en_revision : comentarios / cambios
   prototipo_en_revision --> wireframes_en_revision : cambio estructural
 }
 
-pendiente --> ux : /vertical-dev:wireframe
+pendiente --> ux : /vd:wireframe
 prototipo_en_revision --> prototipo_aprobado : usuario aprueba
-prototipo_aprobado --> bd_en_revision : /vertical-dev:db
+prototipo_aprobado --> bd_en_revision : /vd:db
 bd_en_revision --> bd_modelada : usuario aprueba\n+ migración verificada
-bd_modelada --> backend_listo : /vertical-dev:backend\n(contrato aprobado, pruebas en verde)
-backend_listo --> frontend_listo : /vertical-dev:frontend\n(pruebas y build en verde)
-frontend_listo --> en_pruebas : /vertical-dev:qa (plan y entorno listos)
+bd_modelada --> backend_listo : /vd:backend\n(contrato aprobado, pruebas en verde)
+backend_listo --> frontend_listo : /vd:frontend\n(pruebas y build en verde)
+frontend_listo --> en_pruebas : /vd:qa (plan y entorno listos)
 
-prototipo_aprobado --> implementacion_en_revision : /vertical-dev:build\n(requerimiento pequeño)
+prototipo_aprobado --> implementacion_en_revision : /vd:build\n(requerimiento pequeño)
 implementacion_en_revision --> implementacion_en_revision : feedback del plan
 implementacion_en_revision --> bd_modelada : plan aprobado\n+ migración verificada
 
 note right of implementacion_en_revision
   Modo compacto (modo: compacto en state.yaml):
   una sola revisión de modelo, contrato y pantallas;
-  /vertical-dev:build sigue sin paradas por
+  /vd:build sigue sin paradas por
   bd_modelada y backend_listo hasta frontend_listo.
-  Con /vertical-dev:build-qa (modo: build-qa) sigue
+  Con /vd:build-qa (modo: build-qa) sigue
   hasta en_pruebas y corrige los fallos de implementación
   volviendo a en_pruebas hasta aceptada.
 end note
 
 en_pruebas --> aceptada : todos los casos pasan
-en_pruebas --> en_pruebas : fallo de entorno\n(se corrige en /vertical-dev:qa)
+en_pruebas --> en_pruebas : fallo de entorno\n(se corrige en /vd:qa)
 en_pruebas --> pendiente : fallo de requerimiento
 en_pruebas --> wireframes_en_revision : fallo de estructura UI/UX
 en_pruebas --> prototipo_en_revision : fallo visual
@@ -46,12 +46,12 @@ en_pruebas --> prototipo_aprobado : fallo de base de datos
 en_pruebas --> bd_modelada : fallo de backend
 en_pruebas --> backend_listo : fallo de frontend
 
-aceptada --> entregada : /vertical-dev:ship (verificación final,\ncommits y PR/MR confirmados)
+aceptada --> entregada : /vd:ship (verificación final,\ncommits y PR/MR confirmados)
 entregada --> [*]
 
 note right of en_pruebas
   Un fallo regresa a la fase anterior a la que lo originó;
-  se rehacen esa fase y las siguientes, y /vertical-dev:qa
+  se rehacen esa fase y las siguientes, y /vd:qa
   abre una nueva ronda.
 end note
 

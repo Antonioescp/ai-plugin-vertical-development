@@ -1,13 +1,13 @@
 ---
 name: db
-description: Modela solo la porción de base de datos que necesita un requerimiento (RF-NNN) con prototipo aprobado, a partir de los datos que la UI captura y muestra en ux.md, y genera la migración con las herramientas del proyecto. Produce db.md (modelo, restricciones, índices, trazabilidad) y un diagrama ER en PlantUML. Úsalo cuando el usuario pida modelar datos, diseñar tablas o colecciones, el esquema o la migración de un requerimiento, o cuando /vertical-dev:prototype indique /vertical-dev:db como siguiente paso.
+description: Modela solo la porción de base de datos que necesita un requerimiento (RF-NNN) con prototipo aprobado, a partir de los datos que la UI captura y muestra en ux.md, y genera la migración con las herramientas del proyecto. Produce db.md (modelo, restricciones, índices, trazabilidad) y un diagrama ER en PlantUML. Úsalo cuando el usuario pida modelar datos, diseñar tablas o colecciones, el esquema o la migración de un requerimiento, o cuando /vd:prototype indique /vd:db como siguiente paso.
 ---
 
 # db
 
 Fase 2 del flujo de desarrollo vertical. Traduce los datos de la UI/UX aprobada en el
 modelo de datos **mínimo** que el requerimiento necesita, sobre el esquema que ya existe,
-y lo deja listo como migración. El modelo aprobado es la entrada de `/vertical-dev:backend`.
+y lo deja listo como migración. El modelo aprobado es la entrada de `/vd:backend`.
 
 ## Entradas y salidas
 
@@ -38,7 +38,7 @@ Salidas:
 
 1. Identifica el requerimiento (`RF-NNN` indicado o el que tenga
    `fase: prototipo_aprobado` en `.vd/state.yaml`).
-2. Si `ux.md` no tiene `prototipo: aprobado`, detente y sugiere `/vertical-dev:prototype`.
+2. Si `ux.md` no tiene `prototipo: aprobado`, detente y sugiere `/vd:prototype`.
 3. Lee el requerimiento, `ux.md` y `data.js`.
 4. Lee el **esquema actual**: migraciones existentes, archivos de esquema u ORM
    (modelos, entidades) en las rutas del proyecto, y `.vd/db/modelo.puml` si existe.
@@ -134,7 +134,7 @@ Presenta: entidades y relaciones (enlace al SVG o a `db.puml`), decisiones relev
 Con cada ronda de feedback actualiza `db.md` y `db.puml`, registra la ronda en el
 historial de `db.md` e incrementa `iteracion` en `.vd/state.yaml`. Si el feedback
 implica un dato que la UI no tiene, no lo añadas aquí: es un cambio de UX
-(`/vertical-dev:wireframe`) o de requerimiento (`/vertical-dev:requirements`).
+(`/vd:wireframe`) o de requerimiento (`/vd:requirements`).
 
 ### 6. Generar la migración
 
@@ -164,7 +164,7 @@ Solo después de que el usuario **apruebe el modelo**:
    [templates/db.puml](templates/db.puml) si no existe), sin estereotipos de cambio: las
    entidades nuevas se añaden y las modificadas reemplazan a su versión anterior.
 3. Actualiza `.vd/state.yaml` con `fase: bd_modelada`.
-4. Indica el siguiente paso: `/vertical-dev:backend RF-NNN`.
+4. Indica el siguiente paso: `/vd:backend RF-NNN`.
 
 ## Reglas
 
@@ -173,4 +173,4 @@ Solo después de que el usuario **apruebe el modelo**:
 - Nunca ejecutes migraciones, borrados ni cambios de datos contra bases que no sean
   locales o de desarrollo.
 - No generes la migración sin aprobación explícita del modelo.
-- No implementes repositorios, endpoints ni lógica de negocio: eso es `/vertical-dev:backend`.
+- No implementes repositorios, endpoints ni lógica de negocio: eso es `/vd:backend`.

@@ -1,12 +1,12 @@
 ---
 name: build-qa
-description: Lleva un requerimiento pequeño (RF-NNN) con prototipo aprobado hasta aceptado en una sola invocación. Implementa base de datos, backend y frontend como /vertical-dev:build, hace las pruebas manuales con Claude como ejecutor como /vertical-dev:qa-auto y corrige él mismo los fallos de implementación hasta que todo pasa. Solo se detiene para aprobar el plan, completar los casos que necesitan criterio humano, decidir sobre fallos del diseño aprobado y confirmar la aceptación. Úsalo cuando el usuario pida implementar y probar un requerimiento de punta a punta, todo de una vez o en piloto automático, o cuando /vertical-dev:prototype lo proponga.
+description: Lleva un requerimiento pequeño (RF-NNN) con prototipo aprobado hasta aceptado en una sola invocación. Implementa base de datos, backend y frontend como /vd:build, hace las pruebas manuales con Claude como ejecutor como /vd:qa-auto y corrige él mismo los fallos de implementación hasta que todo pasa. Solo se detiene para aprobar el plan, completar los casos que necesitan criterio humano, decidir sobre fallos del diseño aprobado y confirmar la aceptación. Úsalo cuando el usuario pida implementar y probar un requerimiento de punta a punta, todo de una vez o en piloto automático, o cuando /vd:prototype lo proponga.
 ---
 
 # build-qa
 
-Atajo de las fases 2 a 5 del flujo de desarrollo vertical: `/vertical-dev:build` seguido
-de `/vertical-dev:qa-auto`, más un **bucle de corrección**. Si las pruebas encuentran un
+Atajo de las fases 2 a 5 del flujo de desarrollo vertical: `/vd:build` seguido
+de `/vd:qa-auto`, más un **bucle de corrección**. Si las pruebas encuentran un
 fallo de implementación, lo corrige, vuelve a probar los casos afectados y repite hasta
 que todo pasa, sin devolver el trabajo al usuario.
 
@@ -26,7 +26,7 @@ cualquier momento se puede seguir con los skills separados.
 Con los mismos criterios de "Cuándo usarlo" de [../build/SKILL.md](../build/SKILL.md):
 requerimientos pequeños que siguen patrones existentes. También hace falta una
 herramienta para controlar la app (paso 2 de [../qa-run/SKILL.md](../qa-run/SKILL.md));
-sin ella, propón `/vertical-dev:build` y después `/vertical-dev:qa`.
+sin ella, propón `/vd:build` y después `/vd:qa`.
 
 ## Reglas de cada parte
 
@@ -54,13 +54,13 @@ correcciones, las de la capa que corrige.
 
 ### 2. Implementar
 
-Sigue `/vertical-dev:build` de principio a fin, con `modo: build-qa` en lugar de
+Sigue `/vd:build` de principio a fin, con `modo: build-qa` en lugar de
 `modo: compacto` en `.vd/state.yaml`. Incluye su única puerta: la aprobación del plan
 completo. Al terminar no te detengas: sigue en el paso 3.
 
 ### 3. Probar
 
-Sigue `/vertical-dev:qa-auto` desde su paso 2: plan, entorno, ejecución de los casos,
+Sigue `/vd:qa-auto` desde su paso 2: plan, entorno, ejecución de los casos,
 casos para el usuario y análisis de los fallos. En lugar de su paso 7, ve al paso 4 si
 hay incidencias o al paso 5 si todo pasa.
 
@@ -83,7 +83,7 @@ Al corregir:
    documentada), después el arreglo.
 3. Un fallo de base de datos se corrige con una migración nueva o, si la del
    requerimiento aún no se ha entregado, revirtiéndola, ajustándola y volviéndola a
-   aplicar. Siempre en la base local y como indica `/vertical-dev:db`.
+   aplicar. Siempre en la base local y como indica `/vd:db`.
 4. Actualiza el historial del documento de la capa (`db.md`, `api.md` o
    `frontend.md`) y la lista de archivos tocados.
 5. Ejecuta las suites completas de backend y frontend, lint y build: sin regresiones.
@@ -107,7 +107,7 @@ confirmación de la aceptación como en el paso 9 de `qa`. Incluye en el resumen
 - las incidencias encontradas y cómo se corrigieron.
 
 Con la confirmación, acepta, quita `modo: build-qa` de `.vd/state.yaml` y propone
-`/vertical-dev:ship RF-NNN`.
+`/vd:ship RF-NNN`.
 
 ## Reglas
 
@@ -120,4 +120,4 @@ Con la confirmación, acepta, quita `modo: build-qa` de `.vd/state.yaml` y propo
   suites completas en verde.
 - Nunca ejecutes migraciones, prepares datos, levantes servicios ni ejecutes casos
   contra entornos que no sean locales.
-- No hagas commits: eso es `/vertical-dev:ship`.
+- No hagas commits: eso es `/vd:ship`.

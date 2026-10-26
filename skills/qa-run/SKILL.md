@@ -1,18 +1,18 @@
 ---
 name: qa-run
-description: Ejecuta en la app local los casos de prueba manual de un requerimiento (RF-NNN) que /vertical-dev:qa dejó en qa/plan.json, como lo haría una persona, con el navegador o la herramienta de automatización disponible. Compara cada resultado con lo esperado, guarda pasa, falla o bloqueado con notas y evidencia en qa/results.json marcados como ejecutados por el agente, y deja para el usuario los casos que necesitan criterio humano. Úsalo cuando el usuario pida que Claude ejecute, corra o pase las pruebas manuales o los casos de QA de un requerimiento, o cuando /vertical-dev:qa lo proponga.
+description: Ejecuta en la app local los casos de prueba manual de un requerimiento (RF-NNN) que /vd:qa dejó en qa/plan.json, como lo haría una persona, con el navegador o la herramienta de automatización disponible. Compara cada resultado con lo esperado, guarda pasa, falla o bloqueado con notas y evidencia en qa/results.json marcados como ejecutados por el agente, y deja para el usuario los casos que necesitan criterio humano. Úsalo cuando el usuario pida que Claude ejecute, corra o pase las pruebas manuales o los casos de QA de un requerimiento, o cuando /vd:qa lo proponga.
 ---
 
 # qa-run
 
-Complemento de `/vertical-dev:qa`. Ese skill escribe el plan, prepara el entorno y analiza
+Complemento de `/vd:qa`. Ese skill escribe el plan, prepara el entorno y analiza
 los resultados; este **ejecuta los casos del plan** en la app real, en local, en lugar
 del usuario o antes que él. No cambia el plan ni corrige nada: observa, marca y deja
 evidencia.
 
 Sus resultados cuentan como una ronda normal, marcados con `"ejecutor": "agente"`. El
 usuario los ve en `design/qa.html`, puede cambiar cualquiera, y para aceptar el
-requerimiento `/vertical-dev:qa` le pide confirmación explícita.
+requerimiento `/vd:qa` le pide confirmación explícita.
 
 ## Entradas y salidas
 
@@ -38,14 +38,14 @@ Salidas:
 
 1. Identifica el requerimiento (`RF-NNN` indicado o el que tenga `fase: en_pruebas` en
    `.vd/state.yaml`).
-2. Si no existe `qa/plan.json`, detente y sugiere `/vertical-dev:qa RF-NNN`: sin plan no
+2. Si no existe `qa/plan.json`, detente y sugiere `/vd:qa RF-NNN`: sin plan no
    hay nada que ejecutar.
 3. Lee el plan, `qa.md` y la última ronda de `qa/results.json`:
    - Si no hay rondas, crea la ronda 1 con todos los casos, como hace `design/qa.html`.
    - Si la última ronda tiene casos `pendiente`, ejecuta esos. Si el usuario pide
      repetir casos ya marcados, sobrescríbelos solo con su confirmación.
    - Si todos los casos de la última ronda están marcados y no hay una ronda nueva, no
-     abras una: eso lo hace `/vertical-dev:qa` tras las correcciones.
+     abras una: eso lo hace `/vd:qa` tras las correcciones.
 
 ### 2. Elegir la herramienta
 
@@ -127,20 +127,20 @@ Respeta el orden que pida `entorno.notas` (casos que necesitan un estado global,
    Mantén el formato del resto del archivo y no toques los resultados que marcó el
    usuario.
 
-No investigues la causa ni corrijas nada: eso lo hace el paso 6 de `/vertical-dev:qa`.
+No investigues la causa ni corrijas nada: eso lo hace el paso 6 de `/vd:qa`.
 Si un fallo impide seguir con los demás casos (p. ej. la app no arranca), detente, marca
 como `bloqueado` los restantes y dilo.
 
 ### 5. Informar
 
 1. Cierra las pestañas que abriste. Deja la app levantada si el usuario va a revisar o
-   completar casos; si no, detenla como indica `/vertical-dev:qa`.
+   completar casos; si no, detenla como indica `/vd:qa`.
 2. Resume al usuario: cuántos casos pasan, fallan, quedan bloqueados y pendientes, y una
    línea por cada fallo con lo observado.
 3. Dale la URL `http://127.0.0.1:4321/design/qa.html?rf=RF-NNN` (con el servidor de
    revisión levantado), donde ve tus resultados con su evidencia y puede cambiarlos o
    completar los pendientes.
-4. Indica el siguiente paso: cuando no queden pendientes, `/vertical-dev:qa RF-NNN`
+4. Indica el siguiente paso: cuando no queden pendientes, `/vd:qa RF-NNN`
    analiza los fallos o, si todo pasa, le pide confirmar la aceptación.
 
 ## Reglas

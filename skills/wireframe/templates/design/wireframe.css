@@ -1,5 +1,5 @@
 /* Estilo de baja fidelidad para wireframes. Usa los mismos nombres de clase que
-   components.css del prototipo: al pasar a /vertical-dev:prototype solo se cambia la hoja de estilos. */
+   components.css del prototipo: al pasar a /vd:prototype solo se cambia la hoja de estilos. */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {

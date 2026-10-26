@@ -32,7 +32,7 @@ Ejecución: `http://127.0.0.1:4321/design/qa.html?rf=RF-NNN`
 
 | ID | Caso | Ronda | Descripción | Causa encontrada | Origen | Vuelve a | Estado |
 |---|---|---|---|---|---|---|---|
-| INC-1 | QA-02 | 1 | <qué observó el usuario> | <causa raíz> | frontend | `/vertical-dev:frontend` | abierta |
+| INC-1 | QA-02 | 1 | <qué observó el usuario> | <causa raíz> | frontend | `/vd:frontend` | abierta |
 
 **Origen** es una de: requerimiento, UI/UX estructura, UI/UX visual, base de datos,
 backend, frontend, entorno (datos o configuración de pruebas).
