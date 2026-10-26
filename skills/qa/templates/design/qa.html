@@ -136,6 +136,10 @@
           <h3>Resultado esperado</h3>${list(c.esperado, 'ul')}
           ${previo ? `<div class="context">Ronda ${esc(previo.ronda)}: <strong>${esc(previo.estado)}</strong>${previo.nota ? ` — ${esc(previo.nota)}` : ''}</div>` : ''}
           ${contexto ? `<div class="context">Cambios desde la ronda anterior: ${inline(contexto)}</div>` : ''}
+          ${resultado.ejecutor === 'agente' ? `<div class="context">Ejecutado por Claude${
+            resultado.evidencia?.length ? ` · evidencia: ${resultado.evidencia.map((e) =>
+              `<a href="../${esc(rf)}/qa/${esc(e)}" target="_blank">${esc(e.split('/').pop())}</a>`).join(', ')}` : ''
+          }. Si lo compruebas tú y cambias el resultado o la nota, pasa a tu nombre.</div>` : ''}
           <div class="actions row">
             ${ESTADOS.map((e) => `<button type="button" data-estado="${e}" aria-pressed="${estado === e}">${
               { pasa: '✓ Pasa', falla: '✕ Falla', bloqueado: '⏸ Bloqueado' }[e]}</button>`).join('')}
@@ -160,6 +164,16 @@
       const label = document.getElementById('guardado');
       label.textContent = 'Guardando…';
       try {
+        // /vertical-dev:qa-run puede haber escrito resultados mientras la página estaba
+        // abierta: se parte del archivo actual y solo se aplican los casos tocados aquí.
+        const actual = await (await fetch(`/__qa?rf=${encodeURIComponent(rf)}`, { cache: 'no-store' })).json();
+        const destino = actual.rondas?.find((r) => r.numero === round.numero);
+        if (destino) {
+          for (const id of tocados) destino.resultados[id] = round.resultados[id];
+          results = actual;
+          round = destino;
+          if (document.activeElement?.tagName !== 'TEXTAREA') render();
+        }
         const res = await fetch(`/__qa?rf=${encodeURIComponent(rf)}`, {
           method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(results),
         });
@@ -174,9 +188,11 @@
       saveTimer = setTimeout(save, 400);
     }
 
+    const tocados = new Set();
     function setResult(id, patch) {
+      tocados.add(id);
       const actual = round.resultados[id] || { estado: 'pendiente', nota: '' };
-      round.resultados[id] = { ...actual, ...patch, fecha: new Date().toISOString() };
+      round.resultados[id] = { ...actual, ...patch, ejecutor: 'usuario', fecha: new Date().toISOString() };
       scheduleSave();
     }
 

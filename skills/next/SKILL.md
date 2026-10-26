@@ -51,7 +51,7 @@ trabajo en cualquier sesión.
 | `bd_modelada` | `/vertical-dev:backend RF-NNN` (si `api.md` está `en_revision`, falta aprobar el contrato) |
 | `backend_listo` | `/vertical-dev:frontend RF-NNN` |
 | `frontend_listo` | `/vertical-dev:qa RF-NNN` |
-| `en_pruebas` | el usuario prueba en `design/qa.html`; si ya terminó, `/vertical-dev:qa RF-NNN` analiza |
+| `en_pruebas` | el usuario prueba en `design/qa.html` o `/vertical-dev:qa-run RF-NNN` ejecuta los casos; si ya no quedan pendientes, `/vertical-dev:qa RF-NNN` analiza |
 | `aceptada` | `/vertical-dev:ship RF-NNN` |
 | `entregada` | siguiente requerimiento `aprobado` del backlog, o `/vertical-dev:requirements` |
 
@@ -66,7 +66,9 @@ desarrollo, señálalo: es una desviación del flujo que el usuario debería con
 - Comentarios abiertos sin respuesta en `review/comments.json` de la fase actual
   (`fase: "wireframe"` o `"prototipo"`): cuántos y en qué pantallas. Si tienen
   `respuesta`, el skill ya los atendió y el usuario debe revisarlos.
-- Casos `pendiente` en la última ronda de `qa/results.json`.
+- Casos `pendiente` en la última ronda de `qa/results.json` (los que dejó
+  `/vertical-dev:qa-run` necesitan criterio humano) y casos `pasa` con
+  `"ejecutor": "agente"` que esperan la confirmación del usuario para aceptar.
 - Aprobaciones esperadas: `ux.md` en revisión, `db.md` o `api.md` en `en_revision`
   (en `implementacion_en_revision`, el plan completo de `/vertical-dev:build`).
 - Preguntas abiertas en el requerimiento o en los artefactos de la fase actual.

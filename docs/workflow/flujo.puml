@@ -177,8 +177,15 @@ repeat :Toma la siguiente funcionalidad pendiente;
     end note
     |Usuario|
     :Ejecuta los casos en la app y los marca
-    en design/qa.html (pasa / falla / bloqueado);
-    note right: Resultados en .vd/RF-NNN/qa/results.json
+    en design/qa.html (pasa / falla / bloqueado),
+    o pide a **/vertical-dev:qa-run** que los ejecute;
+    note right
+      Resultados en .vd/RF-NNN/qa/results.json.
+      qa-run los marca como del agente, con capturas
+      en qa/evidencia/, y deja pendientes los que
+      necesitan criterio humano. Aceptar con resultados
+      del agente requiere confirmación del usuario.
+    end note
     |Skills|
     :**/vertical-dev:qa** reproduce cada fallo,
     busca la causa raíz y clasifica su origen;

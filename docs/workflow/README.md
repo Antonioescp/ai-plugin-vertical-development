@@ -24,7 +24,8 @@ punta** antes de empezar la siguiente:
 2. **Base de datos**: se modela solo la porción que esa funcionalidad necesita.
 3. **Backend**: se implementa a partir del diseño UX y del modelo de datos.
 4. **Frontend**: se implementan las pantallas aprobadas consumiendo el backend.
-5. **Pruebas manuales**: el usuario prueba la funcionalidad completa.
+5. **Pruebas manuales**: el usuario prueba la funcionalidad completa, o pide a Claude
+   que ejecute los casos (`/vertical-dev:qa-run`) y confirma el resultado.
 
 Al terminar, la funcionalidad está completa y usable aunque falten otras en el backlog.
 
@@ -64,6 +65,7 @@ las de `/vertical-dev:db`, `/vertical-dev:backend` y `/vertical-dev:frontend`.
 | [`/vertical-dev:frontend`](../../skills/frontend/SKILL.md) | 4. Frontend | prototipo, `ux.md`, `api.md`, frontend existente | `frontend.md`, código, pruebas |
 | [`/vertical-dev:build`](../../skills/build/SKILL.md) | 2–4. Modo compacto | `ux.md`, prototipo, esquema, backend y frontend existentes | `db.md`, `api.md`, `frontend.md`, migración, código, pruebas |
 | [`/vertical-dev:qa`](../../skills/qa/SKILL.md) | 5. Pruebas manuales | criterios, `ux.md`, app en local | `qa.md`, `qa/plan.json`, `qa/results.json` |
+| [`/vertical-dev:qa-run`](../../skills/qa-run/SKILL.md) | 5. Pruebas manuales | `qa/plan.json`, app en local | resultados del agente en `qa/results.json`, `qa/evidencia/` |
 | [`/vertical-dev:ship`](../../skills/ship/SKILL.md) | entrega | `qa.md` aceptado | rama, commits, PR/MR |
 | [`/vertical-dev:next`](../../skills/next/SKILL.md) | cualquiera | `.vd/state.yaml`, backlog, artefactos | siguiente skill y pendientes del usuario |
 

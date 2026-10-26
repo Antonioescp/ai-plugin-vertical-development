@@ -20,6 +20,7 @@ Flujo completo, principios y diagramas: [docs/workflow/README.md](docs/workflow/
 | [`frontend`](skills/frontend/SKILL.md) | Pantallas reales a partir del prototipo, con pruebas |
 | [`build`](skills/build/SKILL.md) | Atajo para requerimientos pequeños: `db` + `backend` + `frontend` en una pasada con una sola revisión |
 | [`qa`](skills/qa/SKILL.md) | Pruebas manuales guiadas y análisis de fallos |
+| [`qa-run`](skills/qa-run/SKILL.md) | Claude ejecuta en la app los casos del plan de `qa` y marca resultados con evidencia |
 | [`ship`](skills/ship/SKILL.md) | Commits, push y PR/MR |
 | [`next`](skills/next/SKILL.md) | Dónde estamos y qué sigue |
 

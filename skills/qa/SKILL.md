@@ -26,7 +26,7 @@ Salidas:
 .vd/RF-NNN/
   qa.md                     # cobertura, rondas e incidencias (plantilla: templates/qa.md)
   qa/plan.json              # casos de prueba (plantilla: templates/plan.json)
-  qa/results.json           # resultados que marca el usuario, por ronda
+  qa/results.json           # resultados por ronda (del usuario o de /vertical-dev:qa-run)
 ```
 
 La página de pruebas necesita el servidor de revisión `.vd/design/review-server.mjs`
@@ -105,14 +105,20 @@ responda en el chat con el resultado de cada uno.
    - cómo marcar: **Pasa**, **Falla** o **Bloqueado** (no pudo ejecutarlo), con una nota
      obligatoria en los dos últimos;
    - que te avise cuando termine.
+3. Ofrece también que Claude ejecute los casos con `/vertical-dev:qa-run RF-NNN`: los
+   recorre en la app, marca sus resultados como del agente con evidencia y deja
+   pendientes para el usuario los que necesitan criterio humano.
 
 ### 5. Esperar
 
-No marques resultados por el usuario. Las pruebas manuales las hace una persona.
+No marques resultados desde este skill. Los marca el usuario en `design/qa.html` o, si
+lo pide, `/vertical-dev:qa-run` con `"ejecutor": "agente"`.
 
 ### 6. Analizar los resultados
 
-Lee la última ronda de `qa/results.json`. Para cada caso en `falla` o `bloqueado`:
+Lee la última ronda de `qa/results.json`. Los resultados con `"ejecutor": "agente"` traen
+evidencia en `qa/evidencia/`: úsala al reproducir. Para cada caso en `falla` o
+`bloqueado`:
 
 1. **Reprodúcelo** en local si puedes (navegador, llamadas a la API local, logs del
    backend, consola del navegador, consulta a la base local).
@@ -174,17 +180,22 @@ Al volver tras las correcciones:
 
 Cuando todos los casos de la última ronda están en `pasa` y no hay incidencias abiertas:
 
-1. Pon `estado: aceptado` en `qa.md` y completa "Resultado final".
-2. Actualiza `.vd/state.yaml` con `fase: aceptada`. El requerimiento sigue
+1. Si algún `pasa` tiene `"ejecutor": "agente"`, pide al usuario **confirmación
+   explícita** antes de aceptar: dile qué casos comprobó Claude y que puede repetir a
+   mano los que quiera en `design/qa.html`. Sin confirmación no se acepta.
+2. Pon `estado: aceptado` en `qa.md` y completa "Resultado final" (indica qué casos
+   ejecutó el agente y que el usuario confirmó la aceptación).
+3. Actualiza `.vd/state.yaml` con `fase: aceptada`. El requerimiento sigue
    `en_pruebas` hasta que `/vertical-dev:ship` lo entregue.
-3. Detén los procesos que levantaste (servidores de app y de revisión).
-4. Indica el siguiente paso: `/vertical-dev:ship RF-NNN`.
+4. Detén los procesos que levantaste (servidores de app y de revisión).
+5. Indica el siguiente paso: `/vertical-dev:ship RF-NNN`.
 
 ## Reglas
 
 - Escribe en el idioma del usuario.
 - Nunca marques casos como pasados en nombre del usuario ni des por aceptado algo sin
-  resultados suyos.
+  resultados suyos o, si los ejecutó `/vertical-dev:qa-run`, sin su confirmación
+  explícita.
 - Nunca prepares datos ni levantes servicios contra entornos que no sean locales.
 - No corrijas código de producto desde aquí: identifica el origen y devuelve el trabajo
   a su fase. Solo se corrige aquí lo que es de entorno de pruebas.
